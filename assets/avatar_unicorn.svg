@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="uniBg" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f5f3ff"/>
+      <stop offset="100%" stop-color="#ddd6fe"/>
+    </radialGradient>
+    <linearGradient id="hornGrad" x1="0%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#fde047"/>
+    </linearGradient>
+    <linearGradient id="maneGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="maneGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="98" fill="url(#uniBg)" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Soft Dreamy Clouds at bottom -->
+  <ellipse cx="60" cy="180" rx="40" ry="25" fill="#f3e8ff" opacity="0.8"/>
+  <ellipse cx="140" cy="180" rx="40" ry="25" fill="#f3e8ff" opacity="0.8"/>
+  <ellipse cx="100" cy="185" rx="55" ry="25" fill="#ffffff"/>
+
+  <!-- Star Sparkles -->
+  <path d="M40 50 Q45 50 45 45 Q45 50 50 50 Q45 50 45 55 Q45 50 40 50 Z" fill="#c084fc"/>
+  <path d="M150 45 Q154 45 154 41 Q154 45 158 45 Q154 45 154 49 Q154 45 150 45 Z" fill="#f472b6"/>
+  <circle cx="165" cy="75" r="2.5" fill="#fbbf24"/>
+  <circle cx="35" cy="85" r="2" fill="#38bdf8"/>
+
+  <!-- Mane Back Waves -->
+  <path d="M60 85 C40 95 35 125 45 145 C50 155 60 160 70 160 C58 145 58 120 70 100 Z" fill="url(#maneGrad2)"/>
+  <path d="M140 85 C160 95 165 125 155 145 C150 155 140 160 130 160 C142 145 142 120 130 100 Z" fill="url(#maneGrad1)"/>
+
+  <!-- Golden Magic Spiral Horn -->
+  <polygon points="100,20 92,72 108,72" fill="url(#hornGrad)"/>
+  <!-- Horn Grooves -->
+  <line x1="93" y1="62" x2="107" y2="58" stroke="#d97706" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="95" y1="48" x2="105" y2="44" stroke="#d97706" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="97" y1="34" x2="103" y2="31" stroke="#d97706" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Left Ear -->
+  <path d="M72 75 C60 55 65 40 78 50 C85 58 82 72 78 78 Z" fill="#ffffff" stroke="#e9d5ff" stroke-width="1.5"/>
+  <path d="M72 70 C66 58 68 50 76 56 C79 60 78 68 76 72 Z" fill="#fbcfe8"/>
+
+  <!-- Right Ear -->
+  <path d="M128 75 C140 55 135 40 122 50 C115 58 118 72 122 78 Z" fill="#ffffff" stroke="#e9d5ff" stroke-width="1.5"/>
+  <path d="M128 70 C134 58 132 50 124 56 C121 60 122 68 124 72 Z" fill="#fbcfe8"/>
+
+  <!-- Head -->
+  <ellipse cx="100" cy="112" rx="42" ry="38" fill="#ffffff" stroke="#ede9fe" stroke-width="1.5"/>
+
+  <!-- Forehead Mane Curls -->
+  <path d="M85 70 C85 60 100 58 105 68 C110 58 120 62 118 74 C112 70 106 75 100 78 C95 72 90 75 85 70 Z" fill="url(#maneGrad1)"/>
+  <path d="M92 74 C96 68 108 68 110 76 C105 76 100 74 95 80 Z" fill="url(#maneGrad2)"/>
+
+  <!-- Cute Closed Happy Eyelashes -->
+  <path d="M74 112 C77 118 87 118 90 112" stroke="#4c1d95" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <line x1="75" y1="114" x2="72" y2="118" stroke="#4c1d95" stroke-width="2" stroke-linecap="round"/>
+  <line x1="89" y1="114" x2="92" y2="118" stroke="#4c1d95" stroke-width="2" stroke-linecap="round"/>
+
+  <path d="M110 112 C113 118 123 118 126 112" stroke="#4c1d95" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <line x1="111" y1="114" x2="108" y2="118" stroke="#4c1d95" stroke-width="2" stroke-linecap="round"/>
+  <line x1="125" y1="114" x2="128" y2="118" stroke="#4c1d95" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Cute Rosy Blush -->
+  <ellipse cx="72" cy="122" rx="8" ry="4.5" fill="#f472b6" opacity="0.6"/>
+  <ellipse cx="128" cy="122" rx="8" ry="4.5" fill="#f472b6" opacity="0.6"/>
+
+  <!-- Little Snout & Heart Smile -->
+  <ellipse cx="100" cy="128" rx="16" ry="11" fill="#fdf2f8"/>
+  <circle cx="95" cy="126" r="1.8" fill="#f43f5e"/>
+  <circle cx="105" cy="126" r="1.8" fill="#f43f5e"/>
+  <path d="M97 131 Q100 134 103 131" stroke="#f43f5e" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+
+  <!-- Little Star on Cheek -->
+  <polygon points="132,118 133,120 135,120 133.5,121.5 134,123.5 132,122 130,123.5 130.5,121.5 129,120 131,120" fill="#fbbf24"/>
+</svg>

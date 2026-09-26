@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reese Kim | Bio Link</title>
+  <meta name="description" content="Reese Kim - Cozy reviews, spicy takes. Official bio links, social channels, and storefront.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+</head>
+<body data-theme="desert">
+
+  <!-- ==========================================
+       SVG FILTERS & SYMBOL DEFINITIONS
+       ========================================== -->
+  <svg class="svg-filter-container" aria-hidden="true">
+    <defs>
+      <!-- Procedural Torn Deckle Paper Edge Filter -->
+      <filter id="torn-edge-filter" x="-2%" y="-5%" width="104%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04 0.09" numOctaves="3" result="noise" seed="8" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ==========================================
+       TOP APP BAR & NAVIGATION
+       ========================================== -->
+  <header class="top-nav">
+    <div class="brand" id="brandBtn">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+      </div>
+      <span>Bio Link</span>
+      <span class="brand-tag">PRO</span>
+    </div>
+
+    <!-- Live Theme Switcher Pills in Nav -->
+    <div class="theme-selector-bar" role="group" aria-label="Theme Selector">
+      <button class="theme-pill-btn active" data-set-theme="desert" title="Chủ đề Desert cổ điển">
+        <span class="color-dot" style="background: #dfc19b;"></span> Desert
+      </button>
+      <button class="theme-pill-btn" data-set-theme="unicorn-paper" title="Giấy xé tím pastel">
+        <span class="color-dot" style="background: linear-gradient(135deg, #dfc19b, #b2b0f8);"></span> Unicorn Paper 📜
+      </button>
+      <button class="theme-pill-btn" data-set-theme="strawberry-paper" title="Giấy xé dâu tây pastel">
+        <span class="color-dot" style="background: #fbcfe8;"></span> Strawberry Paper 🍓
+      </button>
+      <button class="theme-pill-btn" data-set-theme="matcha-paper" title="Giấy xé matcha xanh tươi cute">
+        <span class="color-dot" style="background: #86efac;"></span> Matcha Paper 🍵
+      </button>
+      <button class="theme-pill-btn" data-set-theme="galaxy" title="Galaxy pastel huyền ảo lung linh">
+        <span class="color-dot" style="background: linear-gradient(135deg, #c4b5fd, #fbcfe8);"></span> Pastel Galaxy ✨
+      </button>
+      <button class="theme-pill-btn" data-set-theme="unicorn" title="Unicorn tím pastel viên thuốc">
+        <span class="color-dot" style="background: #b2b0f8;"></span> Unicorn 🦄
+      </button>
+      <button class="theme-pill-btn" data-set-theme="strawberry" title="Dâu tây sữa ngọt ngào">
+        <span class="color-dot" style="background: #ec4899;"></span> Strawberry 🍓
+      </button>
+      <button class="theme-pill-btn" data-set-theme="matcha" title="Matcha xanh pastel tươi sáng">
+        <span class="color-dot" style="background: #22c55e;"></span> Fresh Matcha 🍵
+      </button>
+    </div>
+
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <!-- Toggle Sound SFX -->
+      <button class="btn-nav btn-icon-only" id="sfxToggleBtn" title="Bật/Tắt âm thanh tương tác" aria-label="Toggle Sound Effects">
+        <svg id="sfxIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+      </button>
+
+      <!-- Toggle View: Phone Mockup vs Full Screen -->
+      <button class="btn-nav" id="viewModeToggleBtn" title="Chuyển chế độ xem Khung Điện thoại / Toàn màn hình">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+          <line x1="12" y1="18" x2="12.01" y2="18"></line>
+        </svg>
+        <span id="viewModeText">Xem Toàn Màn Hình</span>
+      </button>
+
+      <!-- Share & QR Modal Trigger -->
+      <button class="btn-nav" id="openShareModalBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        <span>Chia sẻ & QR</span>
+      </button>
+
+      <!-- Open Customizer Drawer -->
+      <button class="btn-nav primary" id="openDrawerBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        <span>Chỉnh sửa Bio</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       MAIN WORKSPACE / PHONE DISPLAY
+       ========================================== -->
+  <main class="main-stage">
+    <!-- Active Theme Name Label (matching screenshot mockup: "DESERT" / "UNICORN") -->
+    <div class="stage-theme-title" id="stageThemeTitle">DESERT</div>
+
+    <!-- Phone Bezel & Screen Wrapper -->
+    <div class="phone-wrapper">
+      <div class="phone-frame">
+        <!-- Dynamic Island Pill -->
+        <div class="dynamic-island">
+          <div class="island-camera"></div>
+        </div>
+
+        <!-- Phone Display Screen -->
+        <div class="phone-screen" id="phoneScreen">
+          <!-- Background Paper Grain Texture Overlay (Desert theme) -->
+          <div class="paper-overlay"></div>
+
+          <!-- Main Bio Content Container -->
+          <div class="bio-container">
+            <!-- Profile Info Section -->
+            <section class="profile-section">
+              <div class="avatar-wrapper">
+                <img id="profileAvatar" class="avatar-img" src="assets/avatar_strawberry.png" alt="Avatar" loading="eager">
+              </div>
+
+              <div class="profile-name-row">
+                <h1 class="profile-name" id="profileName">Reese Kim</h1>
+                <span class="verified-badge" id="profileVerified" title="Tài khoản đã xác minh">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.2 14.2l-3.8-3.8 1.4-1.4 2.4 2.4 5.6-5.6 1.4 1.4-7 7z"/>
+                  </svg>
+                </span>
+              </div>
+
+              <p class="profile-bio" id="profileBio">Cozy reviews, spicy takes.</p>
+
+              <!-- Social Media Icon Row -->
+              <nav class="socials-row" id="socialsRow" aria-label="Mạng xã hội">
+                <!-- Injected via JavaScript -->
+              </nav>
+            </section>
+
+            <!-- Links Section -->
+            <section class="links-list" id="linksList" aria-label="Danh sách liên kết">
+              <!-- Injected via JavaScript -->
+            </section>
+
+            <!-- Bio Page Footer -->
+            <footer class="bio-footer">
+              <a href="#" class="footer-brand-pill" id="footerCreateBioBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                <span>Tạo Bio Link của bạn</span>
+              </a>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       CUSTOMIZER / LIVE EDITOR DRAWER
+       ========================================== -->
+  <div class="editor-backdrop" id="editorBackdrop"></div>
+  <aside class="editor-drawer" id="editorDrawer" aria-label="Bảng chỉnh sửa Bio">
+    <div class="drawer-header">
+      <h2 class="drawer-title">Tùy Chỉnh Bio Link</h2>
+      <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Đóng">&times;</button>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="drawer-tabs">
+      <button class="drawer-tab active" data-tab="tab-profile">Hồ sơ</button>
+      <button class="drawer-tab" data-tab="tab-links">Liên kết</button>
+      <button class="drawer-tab" data-tab="tab-socials">Mạng XH</button>
+      <button class="drawer-tab" data-tab="tab-themes">Giao diện</button>
+      <button class="drawer-tab" data-tab="tab-export">Xuất file</button>
+    </div>
+
+    <!-- Drawer Content Panels -->
+    <div class="drawer-body">
+      <!-- 1. PROFILE TAB -->
+      <div class="tab-pane active" id="tab-profile">
+        <div class="form-group">
+          <label class="form-label">Tên hiển thị</label>
+          <input type="text" id="inputName" class="form-input" value="Reese Kim" placeholder="Nhập họ tên hoặc thương hiệu">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tiểu sử / Tagline</label>
+          <textarea id="inputBio" class="form-textarea" rows="2" placeholder="Mô tả ngắn gọn về bạn">Cozy reviews, spicy takes.</textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="toggle-switch-row">
+            <div>
+              <span class="form-label" style="margin-bottom:0">Tích xanh xác minh (Verified)</span>
+              <p class="form-hint">Hiển thị huy hiệu tích xanh uy tín</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="inputVerified" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ảnh đại diện (Avatar)</label>
+          <input type="text" id="inputAvatarUrl" class="form-input" placeholder="Dán link ảnh online (URL)...">
+          
+          <div style="margin-top: 10px;">
+            <label class="btn-nav" style="display:inline-flex; cursor:pointer; width:100%; justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span style="margin-left: 6px;">Tải ảnh từ máy tính</span>
+              <input type="file" id="inputAvatarFile" accept="image/*" style="display:none;">
+            </label>
+          </div>
+
+          <label class="form-label" style="margin-top: 14px;">Hoặc chọn ảnh đại diện minh họa dễ thương (8 mẫu cute):</label>
+          <div class="avatar-preset-picker">
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn active" data-preset-avatar="assets/avatar_strawberry.png" title="Bé Thỏ Dâu Tây 🍓">
+                <img src="assets/avatar_strawberry.png" alt="Thỏ Dâu Tây">
+              </button>
+              <span class="avatar-preset-label">Thỏ Dâu 🍓</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_matcha.png" title="Gấu Trúc Matcha 🍵">
+                <img src="assets/avatar_matcha.png" alt="Gấu Matcha">
+              </button>
+              <span class="avatar-preset-label">Gấu Matcha 🍵</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_galaxy.png" title="Mèo Galaxy ✨">
+                <img src="assets/avatar_galaxy.png" alt="Mèo Galaxy">
+              </button>
+              <span class="avatar-preset-label">Mèo Galaxy ✨</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_unicorn.svg" title="Kỳ Lân Mộng Mơ 🦄">
+                <img src="assets/avatar_unicorn.svg" alt="Kỳ Lân">
+              </button>
+              <span class="avatar-preset-label">Kỳ Lân 🦄</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_desert.svg" title="Cáo Sa Mạc Cozy 🦊">
+                <img src="assets/avatar_desert.svg" alt="Cáo Sa Mạc">
+              </button>
+              <span class="avatar-preset-label">Cáo Sa Mạc 🦊</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_boba_cat.svg" title="Mèo Trà Sữa 🧋">
+                <img src="assets/avatar_boba_cat.svg" alt="Mèo Trà Sữa">
+              </button>
+              <span class="avatar-preset-label">Mèo Trà Sữa 🧋</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_chibi_girl.svg" title="Cô Bé Chibi 🌸">
+                <img src="assets/avatar_chibi_girl.svg" alt="Cô Bé Chibi">
+              </button>
+              <span class="avatar-preset-label">Bé Chibi 🌸</span>
+            </div>
+            <div class="avatar-preset-item">
+              <button class="avatar-preset-btn" data-preset-avatar="assets/avatar_coffee_cozy.svg" title="Cốc Cà Phê Latte ☕">
+                <img src="assets/avatar_coffee_cozy.svg" alt="Cà Phê Latte">
+              </button>
+              <span class="avatar-preset-label">Latte Cat ☕</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. LINKS TAB -->
+      <div class="tab-pane" id="tab-links">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <span style="font-size:0.88rem; font-weight:700; color:#334155;">Danh sách nút liên kết</span>
+          <button class="btn-nav primary" id="addNewLinkBtn" style="padding: 6px 12px; font-size:0.8rem;">
+            + Thêm liên kết mới
+          </button>
+        </div>
+
+        <div id="editableLinksContainer">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- 3. SOCIALS TAB -->
+      <div class="tab-pane" id="tab-socials">
+        <p class="form-hint" style="margin-bottom:14px;">Nhập link các nền tảng mạng xã hội bạn dùng (để trống nếu không dùng):</p>
+        
+        <div class="form-group">
+          <label class="form-label">Facebook</label>
+          <input type="text" class="form-input social-input" data-platform="facebook" placeholder="https://facebook.com/yourprofile">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Messenger</label>
+          <input type="text" class="form-input social-input" data-platform="messenger" placeholder="https://m.me/yourprofile">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zalo</label>
+          <input type="text" class="form-input social-input" data-platform="zalo" placeholder="https://zalo.me/0912345678">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instagram</label>
+          <input type="text" class="form-input social-input" data-platform="instagram" placeholder="https://instagram.com/yourhandle">
+        </div>
+        <div class="form-group">
+          <label class="form-label">TikTok</label>
+          <input type="text" class="form-input social-input" data-platform="tiktok" placeholder="https://tiktok.com/@yourhandle">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Shopee (Shop / Gian hàng)</label>
+          <input type="text" class="form-input social-input" data-platform="shopee" placeholder="https://shopee.vn/yourshop">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Threads</label>
+          <input type="text" class="form-input social-input" data-platform="threads" placeholder="https://threads.net/@yourhandle">
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube</label>
+          <input type="text" class="form-input social-input" data-platform="youtube" placeholder="https://youtube.com/@yourchannel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Twitter / X</label>
+          <input type="text" class="form-input social-input" data-platform="twitter" placeholder="https://twitter.com/yourhandle">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telegram</label>
+          <input type="text" class="form-input social-input" data-platform="telegram" placeholder="https://t.me/yourusername">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Discord</label>
+          <input type="text" class="form-input social-input" data-platform="discord" placeholder="https://discord.gg/yourinvite">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Spotify</label>
+          <input type="text" class="form-input social-input" data-platform="spotify" placeholder="https://open.spotify.com/artist/...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">GitHub</label>
+          <input type="text" class="form-input social-input" data-platform="github" placeholder="https://github.com/yourusername">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Buy Me a Coffee / Ủng hộ</label>
+          <input type="text" class="form-input social-input" data-platform="coffee" placeholder="https://buymeacoffee.com/yourname">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email liên hệ</label>
+          <input type="email" class="form-input social-input" data-platform="email" placeholder="mailto:yourname@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số điện thoại / Hotline</label>
+          <input type="text" class="form-input social-input" data-platform="phone" placeholder="tel:0912345678">
+        </div>
+      </div>
+
+      <!-- 4. THEMES TAB -->
+      <div class="tab-pane" id="tab-themes">
+        <label class="form-label">Chọn bộ giao diện thiết kế:</label>
+        <div class="theme-grid-selector">
+          <!-- 1. Desert Theme -->
+          <div class="theme-card-option active" data-theme-choice="desert">
+            <div class="theme-preview-box" style="background: radial-gradient(circle, #ebd3b5, #dfc19b);">
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 4px rgba(0,0,0,0.1);"></div>
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 4px rgba(0,0,0,0.1);"></div>
+            </div>
+            <span class="theme-card-label">🏜️ Desert</span>
+          </div>
+
+          <!-- 2. Unicorn Paper (Desert x Unicorn) -->
+          <div class="theme-card-option" data-theme-choice="unicorn-paper">
+            <div class="theme-preview-box" style="background: radial-gradient(circle, #fbf9ff, #eee5fa);">
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(139,92,246,0.25);"></div>
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(139,92,246,0.25);"></div>
+            </div>
+            <span class="theme-card-label">🦄📜 Unicorn Paper</span>
+          </div>
+
+          <!-- 3. Strawberry Paper -->
+          <div class="theme-card-option" data-theme-choice="strawberry-paper">
+            <div class="theme-preview-box" style="background: radial-gradient(circle, #fff5f8, #fce4ee);">
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(236,72,153,0.25);"></div>
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(236,72,153,0.25);"></div>
+            </div>
+            <span class="theme-card-label">🍓📜 Strawberry Paper</span>
+          </div>
+
+          <!-- 4. Matcha Paper -->
+          <div class="theme-card-option" data-theme-choice="matcha-paper">
+            <div class="theme-preview-box" style="background: radial-gradient(circle, #f2fcf5, #dcfce7);">
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(34,197,94,0.25);"></div>
+              <div class="mini-pill" style="background:#ffffff; box-shadow:0 2px 5px rgba(34,197,94,0.25);"></div>
+            </div>
+            <span class="theme-card-label">🍵📜 Matcha Paper</span>
+          </div>
+
+          <!-- 5. Pastel Galaxy -->
+          <div class="theme-card-option" data-theme-choice="galaxy">
+            <div class="theme-preview-box" style="background: linear-gradient(135deg, #c4b5fd, #a5b4fc, #fbcfe8);">
+              <div class="mini-pill" style="background:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.9); box-shadow:0 0 8px rgba(167,139,250,0.5);"></div>
+              <div class="mini-pill" style="background:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.9); box-shadow:0 0 8px rgba(167,139,250,0.5);"></div>
+            </div>
+            <span class="theme-card-label">🌌 Pastel Galaxy ✨</span>
+          </div>
+
+          <!-- 6. Unicorn Pastel Pills -->
+          <div class="theme-card-option" data-theme-choice="unicorn">
+            <div class="theme-preview-box" style="background: linear-gradient(180deg, #faf9fe, #ebe7fd);">
+              <div class="mini-pill" style="background:#b2b0f8; box-shadow:0 2px 6px rgba(178,176,248,0.4);"></div>
+              <div class="mini-pill" style="background:#b2b0f8; box-shadow:0 2px 6px rgba(178,176,248,0.4);"></div>
+            </div>
+            <span class="theme-card-label">🦄 Unicorn Pastel</span>
+          </div>
+
+          <!-- 7. Strawberry Milk -->
+          <div class="theme-card-option" data-theme-choice="strawberry">
+            <div class="theme-preview-box" style="background: linear-gradient(180deg, #fff7fa, #fbcfe8);">
+              <div class="mini-pill" style="background:#ffffff; border:1px solid #fce7f3; box-shadow:0 2px 5px rgba(236,72,153,0.25);"></div>
+              <div class="mini-pill" style="background:#ffffff; border:1px solid #fce7f3; box-shadow:0 2px 5px rgba(236,72,153,0.25);"></div>
+            </div>
+            <span class="theme-card-label">🍓 Strawberry Milk</span>
+          </div>
+
+          <!-- 8. Fresh Matcha -->
+          <div class="theme-card-option" data-theme-choice="matcha">
+            <div class="theme-preview-box" style="background: linear-gradient(180deg, #f2fcf5, #dcfce7);">
+              <div class="mini-pill" style="background:#ffffff; border:1px solid #bbf7d0; box-shadow:0 2px 5px rgba(34,197,94,0.2);"></div>
+              <div class="mini-pill" style="background:#ffffff; border:1px solid #bbf7d0; box-shadow:0 2px 5px rgba(34,197,94,0.2);"></div>
+            </div>
+            <span class="theme-card-label">🍵 Fresh Matcha</span>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- 5. EXPORT / BACKUP TAB -->
+      <div class="tab-pane" id="tab-export">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:16px;">
+          <h4 style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-bottom:6px;">Tải trang web Bio Link về máy</h4>
+          <p class="form-hint" style="margin-bottom:12px;">Xuất trang web Bio hoàn chỉnh thành 1 file HTML duy nhất (offline, không cần cài đặt), sẵn sàng upload lên GitHub Pages, Vercel, Netlify hoặc hosting của bạn.</p>
+          <button class="btn-nav primary" id="downloadHtmlBtn" style="width:100%; justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span style="margin-left:6px;">Tải file HTML độc lập</span>
+          </button>
+        </div>
+
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:16px;">
+          <h4 style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-bottom:6px;">Sao lưu & Phục hồi dữ liệu</h4>
+          <p class="form-hint" style="margin-bottom:12px;">Xuất cấu hình Bio Link của bạn sang dạng JSON hoặc nhập lại dữ liệu đã lưu.</p>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-nav" id="exportJsonBtn" style="flex:1; justify-content:center;">Xuất JSON</button>
+            <button class="btn-nav" id="importJsonBtn" style="flex:1; justify-content:center;">Nhập JSON</button>
+            <input type="file" id="importJsonFile" accept=".json" style="display:none;">
+          </div>
+        </div>
+
+        <div style="text-align:center; margin-top:20px;">
+          <button class="btn-tool delete" id="resetDataBtn" style="font-size:0.85rem; padding:8px 14px;">
+            Khôi phục cài đặt gốc ban đầu
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       MODAL: SHARE & QR CODE
+       ========================================== -->
+  <div class="modal-backdrop" id="shareModalBackdrop">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:1.15rem; font-weight:700; color:#0f172a;">Chia sẻ Bio Link</h3>
+        <button class="drawer-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <p style="font-size:0.85rem; color:#64748b;">Quét mã QR bằng máy ảnh điện thoại để truy cập tức thì:</p>
+
+      <div class="modal-qr-container">
+        <canvas id="qrCodeCanvas" class="modal-qr-canvas" width="220" height="220"></canvas>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <input type="text" id="shareLinkInput" class="form-input" readonly style="font-size:0.85rem; background:#f1f5f9; text-overflow:ellipsis;">
+        <button class="btn-nav primary" id="copyShareLinkBtn">Sao chép</button>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button class="btn-nav" id="downloadQrBtn" style="width:100%; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span style="margin-left:6px;">Tải ảnh mã QR (PNG)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>

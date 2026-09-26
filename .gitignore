@@ -1,0 +1,14 @@
+# Temporary screenshot files & tests
+shot_*.png
+preview_*.png
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor & Tooling
+.vscode/
+.idea/
+*.log
+*.tmp

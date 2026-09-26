@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="girlBg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="60%" stop-color="#fae8ff"/>
+      <stop offset="100%" stop-color="#e0e7ff"/>
+    </radialGradient>
+    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="headphoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Circle Base -->
+  <circle cx="100" cy="100" r="98" fill="url(#girlBg)" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Background sparkle / music notes -->
+  <path d="M40 45 Q44 45 44 41 Q44 45 48 45 Q44 45 44 49 Q44 45 40 45 Z" fill="#c084fc"/>
+  <path d="M160 50 Q164 50 164 46 Q164 50 168 50 Q164 50 164 54 Q164 50 160 50 Z" fill="#f472b6"/>
+  <!-- Music note -->
+  <path d="M155 78 L155 68 L168 65 L168 75 M155 78 A3 3 0 1 1 150 78 A3 3 0 1 1 155 78 M168 75 A3 3 0 1 1 163 75 A3 3 0 1 1 168 75" fill="#a78bfa" stroke="#a78bfa" stroke-width="1.2"/>
+
+  <!-- Back Hair (Twin Buns or Long Soft Locks) -->
+  <path d="M50 100 C40 120 38 150 48 180 C55 185 65 185 70 170 C60 145 62 120 68 100 Z" fill="url(#hairGrad)"/>
+  <path d="M150 100 C160 120 162 150 152 180 C145 185 135 185 130 170 C140 145 138 120 132 100 Z" fill="url(#hairGrad)"/>
+
+  <!-- Cozy Pastel Hoodie (Shoulders) -->
+  <path d="M55 185 C60 160 85 152 100 152 C115 152 140 160 145 185 C148 198 52 198 55 185 Z" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+  <path d="M85 153 C92 165 100 172 100 172 C100 172 108 165 115 153 Z" fill="#fed7aa"/>
+  <!-- Hoodie Strings -->
+  <line x1="88" y1="168" x2="86" y2="185" stroke="#f472b6" stroke-width="2" stroke-linecap="round"/>
+  <line x1="112" y1="168" x2="114" y2="185" stroke="#f472b6" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Neck -->
+  <rect x="92" y="132" width="16" height="22" rx="4" fill="#fed7aa"/>
+
+  <!-- Head Base -->
+  <ellipse cx="100" cy="105" rx="38" ry="34" fill="#ffedd5"/>
+
+  <!-- Hair Base Top -->
+  <path d="M62 100 C58 65 80 50 100 50 C120 50 142 65 138 100 C138 105 135 105 132 95 C125 75 115 72 100 72 C85 72 75 75 68 95 C65 105 62 105 62 100 Z" fill="url(#hairGrad)"/>
+
+  <!-- Cute Bangs -->
+  <path d="M68 92 C72 82 82 80 88 95 C92 82 100 80 102 96 C105 82 118 82 122 95 C126 85 132 88 132 95 C132 102 126 108 122 100 C116 112 108 102 102 100 C98 105 92 108 86 98 C82 108 72 102 68 92 Z" fill="url(#hairGrad)"/>
+
+  <!-- Cat-Ear Headband -->
+  <!-- Band -->
+  <path d="M60 82 C60 48 140 48 140 82" stroke="url(#headphoneGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- Left Cat Ear on Headband -->
+  <polygon points="75,54 62,30 88,42" fill="url(#headphoneGrad)"/>
+  <polygon points="75,50 67,36 84,43" fill="#ffffff" opacity="0.8"/>
+  <!-- Right Cat Ear on Headband -->
+  <polygon points="125,54 138,30 112,42" fill="url(#headphoneGrad)"/>
+  <polygon points="125,50 133,36 116,43" fill="#ffffff" opacity="0.8"/>
+  <!-- Headphone Ear Pads -->
+  <ellipse cx="60" cy="98" rx="8" ry="14" fill="url(#headphoneGrad)"/>
+  <ellipse cx="60" cy="98" rx="5" ry="10" fill="#ffffff" opacity="0.9"/>
+  <ellipse cx="140" cy="98" rx="8" ry="14" fill="url(#headphoneGrad)"/>
+  <ellipse cx="140" cy="98" rx="5" ry="10" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Large Sparkling Anime Eyes -->
+  <ellipse cx="84" cy="108" rx="7.5" ry="9.5" fill="#4c1d95"/>
+  <circle cx="82" cy="104" r="3.2" fill="#ffffff"/>
+  <circle cx="86" cy="112" r="1.6" fill="#c084fc"/>
+  <circle cx="87" cy="107" r="1.2" fill="#ffffff"/>
+  <!-- Upper Eyelash -->
+  <path d="M75 102 Q84 98 93 103" stroke="#2e1065" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <ellipse cx="116" cy="108" rx="7.5" ry="9.5" fill="#4c1d95"/>
+  <circle cx="114" cy="104" r="3.2" fill="#ffffff"/>
+  <circle cx="118" cy="112" r="1.6" fill="#c084fc"/>
+  <circle cx="119" cy="107" r="1.2" fill="#ffffff"/>
+  <!-- Upper Eyelash -->
+  <path d="M107 103 Q116 98 125 102" stroke="#2e1065" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+
+  <!-- Sweet Anime Blush -->
+  <ellipse cx="75" cy="117" rx="7" ry="4" fill="#fb7185" opacity="0.55"/>
+  <ellipse cx="125" cy="117" rx="7" ry="4" fill="#fb7185" opacity="0.55"/>
+
+  <!-- Tiny Cute Smile -->
+  <path d="M97 122 Q100 125 103 122" stroke="#e11d48" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+  <!-- Blossom Flower Hairclip -->
+  <circle cx="128" cy="80" r="4.5" fill="#f472b6"/>
+  <circle cx="134" cy="83" r="4.5" fill="#f472b6"/>
+  <circle cx="132" cy="89" r="4.5" fill="#f472b6"/>
+  <circle cx="124" cy="89" r="4.5" fill="#f472b6"/>
+  <circle cx="122" cy="83" r="4.5" fill="#f472b6"/>
+  <circle cx="128" cy="85" r="3" fill="#fef08a"/>
+</svg>

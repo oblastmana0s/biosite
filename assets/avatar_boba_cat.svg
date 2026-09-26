@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bobaBg" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="60%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </radialGradient>
+    <linearGradient id="teaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa"/>
+      <stop offset="100%" stop-color="#fb923c"/>
+    </linearGradient>
+    <linearGradient id="strawGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Base -->
+  <circle cx="100" cy="100" r="98" fill="url(#bobaBg)" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Sparkles -->
+  <path d="M42 45 Q46 45 46 41 Q46 45 50 45 Q46 45 46 49 Q46 45 42 45 Z" fill="#f59e0b"/>
+  <circle cx="160" cy="65" r="3" fill="#f43f5e" opacity="0.6"/>
+  <circle cx="36" cy="120" r="2.5" fill="#f59e0b" opacity="0.5"/>
+
+  <!-- Straw going through -->
+  <path d="M125 18 L138 18 L122 135 L109 135 Z" fill="url(#strawGrad)"/>
+  <line x1="126" y1="28" x2="132" y2="28" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  <line x1="124" y1="42" x2="130" y2="42" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Cute Cat Ears Behind Cup -->
+  <!-- Left Ear -->
+  <polygon points="62,70 50,32 82,55" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+  <polygon points="63,65 55,38 78,56" fill="#f472b6"/>
+  <!-- Right Ear -->
+  <polygon points="118,55 150,32 138,70" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+  <polygon points="122,56 145,38 137,65" fill="#f472b6"/>
+
+  <!-- Cat Head -->
+  <ellipse cx="100" cy="82" rx="42" ry="34" fill="#ffffff" stroke="#fbcfe8" stroke-width="1.5"/>
+
+  <!-- Cat Eyes (Large, Sparkling Kawaii) -->
+  <ellipse cx="80" cy="80" rx="7" ry="8.5" fill="#1e293b"/>
+  <circle cx="78" cy="77" r="3" fill="#ffffff"/>
+  <circle cx="83" cy="83" r="1.4" fill="#ffffff"/>
+
+  <ellipse cx="120" cy="80" rx="7" ry="8.5" fill="#1e293b"/>
+  <circle cx="118" cy="77" r="3" fill="#ffffff"/>
+  <circle cx="123" cy="83" r="1.4" fill="#ffffff"/>
+
+  <!-- Blush -->
+  <ellipse cx="68" cy="88" rx="6.5" ry="4" fill="#f472b6" opacity="0.65"/>
+  <ellipse cx="132" cy="88" rx="6.5" ry="4" fill="#f472b6" opacity="0.65"/>
+
+  <!-- Nose & Whiskers -->
+  <polygon points="100,85 97,82 103,82" fill="#f43f5e"/>
+  <path d="M96 87 Q100 90 100 87 Q100 90 104 87" stroke="#1e293b" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+  <!-- Whiskers -->
+  <line x1="62" y1="84" x2="50" y2="82" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="62" y1="88" x2="48" y2="90" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="138" y1="84" x2="150" y2="82" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+  <line x1="138" y1="88" x2="152" y2="90" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+
+  <!-- Little Paws resting on cup rim -->
+  <ellipse cx="74" cy="112" rx="9" ry="7" fill="#ffffff" stroke="#fbcfe8" stroke-width="1.5"/>
+  <ellipse cx="126" cy="112" rx="9" ry="7" fill="#ffffff" stroke="#fbcfe8" stroke-width="1.5"/>
+  <line x1="71" y1="113" x2="71" y2="116" stroke="#f472b6" stroke-width="1.2"/>
+  <line x1="77" y1="113" x2="77" y2="116" stroke="#f472b6" stroke-width="1.2"/>
+  <line x1="123" y1="113" x2="123" y2="116" stroke="#f472b6" stroke-width="1.2"/>
+  <line x1="129" y1="113" x2="129" y2="116" stroke="#f472b6" stroke-width="1.2"/>
+
+  <!-- Boba Cup Body -->
+  <path d="M55 110 L68 185 Q70 195 82 195 L118 195 Q130 195 132 185 L145 110 Z" fill="url(#teaGrad)" opacity="0.9" stroke="#ffffff" stroke-width="2.5"/>
+
+  <!-- Cup Rim Lid -->
+  <path d="M50 110 Q100 114 150 110 L148 105 Q100 108 52 105 Z" fill="#ffffff" opacity="0.95"/>
+
+  <!-- Tapioca Boba Pearls -->
+  <circle cx="82" cy="178" r="8" fill="#451a03"/>
+  <circle cx="80" cy="176" r="2" fill="#a16207" opacity="0.7"/>
+  <circle cx="102" cy="180" r="8.5" fill="#451a03"/>
+  <circle cx="100" cy="178" r="2" fill="#a16207" opacity="0.7"/>
+  <circle cx="120" cy="175" r="7.5" fill="#451a03"/>
+  <circle cx="118" cy="173" r="2" fill="#a16207" opacity="0.7"/>
+  <circle cx="92" cy="165" r="7.5" fill="#451a03"/>
+  <circle cx="90" cy="163" r="2" fill="#a16207" opacity="0.7"/>
+  <circle cx="112" cy="162" r="7" fill="#451a03"/>
+  <circle cx="110" cy="160" r="2" fill="#a16207" opacity="0.7"/>
+  <circle cx="75" cy="165" r="6" fill="#451a03"/>
+
+  <!-- Heart Decal on Cup -->
+  <path d="M100 142 C94 135 84 139 84 147 C84 154 100 162 100 162 C100 162 116 154 116 147 C116 139 106 135 100 142 Z" fill="#ffffff" opacity="0.8"/>
+</svg>

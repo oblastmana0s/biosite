@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fdf8f2"/>
+      <stop offset="65%" stop-color="#ebd3b5"/>
+      <stop offset="100%" stop-color="#dfc19b"/>
+    </radialGradient>
+    <linearGradient id="foxBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="foxWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+    <linearGradient id="earInner" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbcfe8"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="98" fill="url(#bgGrad)" stroke="#ffffff" stroke-width="4"/>
+
+  <!-- Warm Sun / Desert Star Accents -->
+  <circle cx="45" cy="45" r="3" fill="#dfc19b" opacity="0.6"/>
+  <circle cx="155" cy="40" r="4" fill="#dfc19b" opacity="0.6"/>
+  <path d="M165 65 L167 60 L172 62 L168 66 L170 71 L165 68 L160 71 L162 66 L158 62 L163 60 Z" fill="#d97706" opacity="0.4" transform="scale(0.6) translate(110, 20)"/>
+
+  <!-- Left Big Fennec Ear -->
+  <path d="M48 95 C25 55 22 15 58 25 C75 30 82 65 78 95 Z" fill="#f59e0b"/>
+  <path d="M50 88 C32 58 32 28 58 35 C70 40 74 65 72 88 Z" fill="url(#earInner)"/>
+  <path d="M42 65 C48 70 52 70 56 65" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.8"/>
+
+  <!-- Right Big Fennec Ear -->
+  <path d="M152 95 C175 55 178 15 142 25 C125 30 118 65 122 95 Z" fill="#f59e0b"/>
+  <path d="M150 88 C168 58 168 28 142 35 C130 40 126 65 128 88 Z" fill="url(#earInner)"/>
+  <path d="M158 65 C152 70 148 70 144 65" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.8"/>
+
+  <!-- Cozy Scarf Back -->
+  <path d="M60 145 C60 135 140 135 140 145 C145 165 55 165 60 145 Z" fill="#c2410c"/>
+
+  <!-- Head -->
+  <ellipse cx="100" cy="115" rx="46" ry="38" fill="url(#foxBody)"/>
+
+  <!-- Cute White Cheek Fluff -->
+  <path d="M54 112 C52 125 68 142 82 142 C92 142 98 132 100 125 C102 132 108 142 118 142 C132 142 148 125 146 112 C142 105 130 102 120 102 C110 102 102 108 100 112 C98 108 90 102 80 102 C70 102 58 105 54 112 Z" fill="url(#foxWhite)"/>
+
+  <!-- Big Sparkling Kawaii Eyes -->
+  <ellipse cx="80" cy="114" rx="7.5" ry="9" fill="#292524"/>
+  <circle cx="78" cy="110" r="3.2" fill="#ffffff"/>
+  <circle cx="83" cy="117" r="1.5" fill="#ffffff"/>
+
+  <ellipse cx="120" cy="114" rx="7.5" ry="9" fill="#292524"/>
+  <circle cx="118" cy="110" r="3.2" fill="#ffffff"/>
+  <circle cx="123" cy="117" r="1.5" fill="#ffffff"/>
+
+  <!-- Cute Blush -->
+  <ellipse cx="68" cy="123" rx="7" ry="4" fill="#fb7185" opacity="0.6"/>
+  <ellipse cx="132" cy="123" rx="7" ry="4" fill="#fb7185" opacity="0.6"/>
+
+  <!-- Tiny Nose & Smile -->
+  <ellipse cx="100" cy="122" rx="3.5" ry="2.5" fill="#292524"/>
+  <path d="M96 126 C98 129 100 129 100 126 C100 129 102 129 104 126" stroke="#292524" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+
+  <!-- Cozy Knit Scarf -->
+  <path d="M62 145 C75 140 125 140 138 145 C142 155 135 168 125 170 C100 173 80 172 65 168 C58 162 58 152 62 145 Z" fill="#ea580c"/>
+  <path d="M72 158 C72 175 75 190 77 195 C86 195 90 188 88 162" fill="#c2410c"/>
+  <!-- Fringe -->
+  <line x1="74" y1="195" x2="74" y2="199" stroke="#9a3412" stroke-width="2"/>
+  <line x1="78" y1="195" x2="78" y2="199" stroke="#9a3412" stroke-width="2"/>
+  <line x1="82" y1="195" x2="82" y2="199" stroke="#9a3412" stroke-width="2"/>
+  <line x1="86" y1="195" x2="86" y2="199" stroke="#9a3412" stroke-width="2"/>
+
+  <!-- Cute little paws on scarf -->
+  <ellipse cx="94" cy="165" rx="6" ry="5" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+  <ellipse cx="108" cy="165" rx="6" ry="5" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+</svg>
