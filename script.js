@@ -9,6 +9,7 @@
 // =============================================================================
 const DEFAULT_BIO_DATA = {
   theme: "desert",
+  font: "quicksand",
   profile: {
     name: "Mimi & Cozy",
     bio: "Góc nhỏ chia sẻ điều xinh xắn, review có tâm ✨",
@@ -31,6 +32,7 @@ const DEFAULT_BIO_DATA = {
       subtitle: "Mã giảm giá 20% & freeship toàn quốc",
       url: "https://shopee.vn",
       icon: "shopee",
+      customIcon: null,
       iconColor: "#EE4D2D",
       badge: "HOT"
     },
@@ -40,6 +42,7 @@ const DEFAULT_BIO_DATA = {
       subtitle: "Vlog thư giãn & review đồ trang trí",
       url: "https://youtube.com",
       icon: "youtube",
+      customIcon: null,
       iconColor: "#E53935",
       badge: "NEW"
     },
@@ -49,6 +52,7 @@ const DEFAULT_BIO_DATA = {
       subtitle: "Danh sách đồ mình dùng mỗi ngày",
       url: "https://goodreads.com",
       icon: "goodreads",
+      customIcon: null,
       iconColor: "#EA638C",
       badge: ""
     },
@@ -58,6 +62,7 @@ const DEFAULT_BIO_DATA = {
       subtitle: "Phản hồi công việc trong ngày",
       url: "https://zalo.me",
       icon: "zalo",
+      customIcon: null,
       iconColor: "#0068FF",
       badge: ""
     }
@@ -67,6 +72,20 @@ const DEFAULT_BIO_DATA = {
     viewMode: "phone" // 'phone' or 'fullscreen'
   }
 };
+
+// Vietnamese Aesthetic Fonts Registry (100% full Vietnamese diacritics support)
+const VIETNAMESE_FONTS = [
+  { id: "quicksand", name: "Quicksand", desc: "Bo tròn siêu cute 🌸", family: "'Quicksand', -apple-system, sans-serif", preview: "Xin chào bạn cute ✨" },
+  { id: "vietnam", name: "Be Vietnam Pro", desc: "Chuẩn nét Việt Nam 🇻🇳", family: "'Be Vietnam Pro', sans-serif", preview: "Nét chữ sắc nét & chuẩn mực" },
+  { id: "nunito", name: "Nunito", desc: "Mềm mại thân thiện 🧸", family: "'Nunito', sans-serif", preview: "Góc nhỏ chia sẻ yêu thương" },
+  { id: "comfortaa", name: "Comfortaa", desc: "Kawaii tròn trịa 🎀", family: "'Comfortaa', cursive", preview: "Xinh xắn & ngọt ngào" },
+  { id: "jakarta", name: "Plus Jakarta", desc: "Công nghệ thời thượng ⚡", family: "'Plus Jakarta Sans', sans-serif", preview: "Tối giản & thanh lịch" },
+  { id: "montserrat", name: "Montserrat", desc: "Khỏe khoắn nổi bật 💎", family: "'Montserrat', sans-serif", preview: "Phong cách cá tính" },
+  { id: "playfair", name: "Playfair Display", desc: "Cổ điển sang trọng 👑", family: "'Playfair Display', serif", preview: "Quý phái & đẳng cấp" },
+  { id: "lora", name: "Lora Serif", desc: "Thơ mộng văn học 📖", family: "'Lora', serif", preview: "Trang sách hoài niệm" },
+  { id: "dancing", name: "Dancing Script", desc: "Viết tay bay bổng ✍️", family: "'Dancing Script', cursive", preview: "Cảm xúc ngọt ngào" },
+  { id: "system", name: "Mặc định máy", desc: "Hệ thống tự nhiên ⚙️", family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", preview: "Chuẩn mực mượt mà" }
+];
 
 // Brand Colors Registry for auto-styling icons
 const BRAND_COLORS = {
@@ -121,6 +140,11 @@ if (themeQuery && VALID_THEMES.includes(themeQuery.toLowerCase())) {
 
 if (urlParams.get("view") === "fullscreen") {
   appData.settings.viewMode = "fullscreen";
+}
+
+const fontQuery = urlParams.get("font");
+if (fontQuery && VIETNAMESE_FONTS.some(f => f.id === fontQuery.toLowerCase())) {
+  appData.font = fontQuery.toLowerCase();
 }
 
 
@@ -254,6 +278,17 @@ function loadBioData() {
         if (!data.profile) data.profile = {};
         data.profile.avatar = "assets/avatar_strawberry.png";
       }
+      if (!data.font) {
+        data.font = "quicksand";
+      }
+      if (!Array.isArray(data.socials) || data.socials.length === 0) {
+        data.socials = JSON.parse(JSON.stringify(DEFAULT_BIO_DATA.socials));
+      }
+      if (Array.isArray(data.links)) {
+        data.links.forEach(l => {
+          if (l.customIcon === undefined) l.customIcon = null;
+        });
+      }
       return data;
     }
   } catch (e) {
@@ -277,6 +312,11 @@ function renderApp() {
   // 1. Set Active Theme Attribute
   document.body.setAttribute("data-theme", appData.theme);
 
+  // 1b. Apply Active Typography / Vietnamese Font
+  const activeFont = VIETNAMESE_FONTS.find(f => f.id === appData.font) || VIETNAMESE_FONTS[0];
+  document.documentElement.style.setProperty("--font-main", activeFont.family);
+  document.documentElement.style.setProperty("--theme-font", activeFont.family);
+
   // 2. Update Header Theme Title (Mockup stage)
   const stageTitle = document.getElementById("stageThemeTitle");
   if (stageTitle) {
@@ -292,8 +332,6 @@ function renderApp() {
     };
     stageTitle.textContent = titles[appData.theme] || appData.theme.toUpperCase();
   }
-
-
 
   // 3. Update Nav Theme Pills & Drawer Theme Cards
   document.querySelectorAll(".theme-pill-btn").forEach(btn => {
@@ -317,7 +355,7 @@ function renderApp() {
     verifiedEl.innerHTML = SVG_ICONS.verified;
   }
 
-  // 5. Render Socials Bar
+  // 5. Render Socials Bar (strictly ordered by appData.socials)
   const socialsRow = document.getElementById("socialsRow");
   if (socialsRow) {
     socialsRow.innerHTML = "";
@@ -350,8 +388,13 @@ function renderApp() {
       // Badge if any
       const badgeHtml = link.badge ? `<span class="card-badge">${escapeHtml(link.badge)}</span>` : "";
 
-      // Icon HTML
-      const iconSvg = SVG_ICONS[link.icon] || SVG_ICONS.globe;
+      // Icon HTML: Custom uploaded image or platform SVG
+      let iconInnerHtml = "";
+      if (link.customIcon) {
+        iconInnerHtml = `<img src="${link.customIcon}" alt="Custom Icon" class="custom-card-icon">`;
+      } else {
+        iconInnerHtml = SVG_ICONS[link.icon] || SVG_ICONS.globe;
+      }
       const iconColor = link.iconColor || "#3b82f6";
 
       // Notice: card-paper-bg layer holds the torn clip-path and drop-shadow,
@@ -360,7 +403,7 @@ function renderApp() {
         <div class="card-paper-bg"></div>
         ${badgeHtml}
         <div class="card-icon-box" style="background-color: ${iconColor};">
-          ${iconSvg}
+          ${iconInnerHtml}
         </div>
         <div class="card-content">
           <div class="card-title">${escapeHtml(link.title)}</div>
@@ -440,15 +483,175 @@ function populateDrawerInputs() {
     }
   });
 
-  // Socials
-  document.querySelectorAll(".social-input").forEach(inp => {
-    const platform = inp.getAttribute("data-platform");
-    const soc = appData.socials.find(s => s.platform === platform);
-    inp.value = soc ? soc.url : "";
-  });
+  // Render Editable Socials in Drawer
+  renderEditableSocialsList();
+
+  // Render Font Selector in Drawer
+  renderFontSelector();
 
   // Render Editable Links in Drawer
   renderEditableLinksList();
+}
+
+function renderEditableSocialsList() {
+  const container = document.getElementById("editableSocialsContainer");
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!appData.socials || appData.socials.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:20px; color:#64748b; font-size:0.84rem; background:#f8fafc; border-radius:10px; border:1px dashed #cbd5e1;">
+        Chưa có biểu tượng MXH nào. Bấm nút <b>+ Thêm MXH</b> ở trên để tạo biểu tượng mới!
+      </div>
+    `;
+    return;
+  }
+
+  appData.socials.forEach((soc, idx) => {
+    const item = document.createElement("div");
+    item.className = "editable-social-item";
+    const brandColor = BRAND_COLORS[soc.platform] || "#6366f1";
+
+    item.innerHTML = `
+      <div class="editable-social-header">
+        <div class="social-header-left">
+          <span class="social-icon-preview" style="color: ${brandColor};">
+            ${SVG_ICONS[soc.platform] || SVG_ICONS.globe}
+          </span>
+          <select class="form-select social-platform-select" data-idx="${idx}">
+            ${generateIconOptions(soc.platform)}
+          </select>
+        </div>
+        <div class="link-item-tools">
+          <button class="btn-tool" data-social-move-up="${idx}" title="Di chuyển lên trước" ${idx === 0 ? "disabled style='opacity:0.3;'" : ""}>▲</button>
+          <button class="btn-tool" data-social-move-down="${idx}" title="Di chuyển xuống sau" ${idx === appData.socials.length - 1 ? "disabled style='opacity:0.3;'" : ""}>▼</button>
+          <button class="btn-tool delete" data-social-delete="${idx}" title="Xóa biểu tượng này">✕</button>
+        </div>
+      </div>
+      <div class="social-input-row">
+        <input type="text" class="form-input social-url-input" data-idx="${idx}" value="${escapeHtml(soc.url || "")}" placeholder="Dán link trang cá nhân (URL)...">
+        <label class="switch" title="${soc.enabled ? "Đang bật hiển thị trên Bio" : "Đang tắt"}">
+          <input type="checkbox" class="social-toggle-checkbox" data-idx="${idx}" ${soc.enabled ? "checked" : ""}>
+          <span class="slider"></span>
+        </label>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  attachSocialItemEvents();
+}
+
+function attachSocialItemEvents() {
+  const container = document.getElementById("editableSocialsContainer");
+  if (!container) return;
+
+  container.querySelectorAll("[data-social-move-up]").forEach(btn => {
+    btn.onclick = (e) => {
+      const idx = parseInt(e.currentTarget.getAttribute("data-social-move-up"));
+      if (idx > 0) {
+        const temp = appData.socials[idx];
+        appData.socials[idx] = appData.socials[idx - 1];
+        appData.socials[idx - 1] = temp;
+        saveBioData();
+        renderApp();
+        renderEditableSocialsList();
+        sfx.playPop();
+      }
+    };
+  });
+
+  container.querySelectorAll("[data-social-move-down]").forEach(btn => {
+    btn.onclick = (e) => {
+      const idx = parseInt(e.currentTarget.getAttribute("data-social-move-down"));
+      if (idx < appData.socials.length - 1) {
+        const temp = appData.socials[idx];
+        appData.socials[idx] = appData.socials[idx + 1];
+        appData.socials[idx + 1] = temp;
+        saveBioData();
+        renderApp();
+        renderEditableSocialsList();
+        sfx.playPop();
+      }
+    };
+  });
+
+  container.querySelectorAll("[data-social-delete]").forEach(btn => {
+    btn.onclick = (e) => {
+      const idx = parseInt(e.currentTarget.getAttribute("data-social-delete"));
+      const pName = appData.socials[idx].platform;
+      appData.socials.splice(idx, 1);
+      saveBioData();
+      renderApp();
+      renderEditableSocialsList();
+      showToast(`Đã xóa biểu tượng ${pName}`);
+      sfx.playPop();
+    };
+  });
+
+  container.querySelectorAll(".social-platform-select").forEach(sel => {
+    sel.onchange = (e) => {
+      const idx = parseInt(e.target.getAttribute("data-idx"));
+      const newPlatform = e.target.value;
+      appData.socials[idx].platform = newPlatform;
+      saveBioData();
+      renderApp();
+      renderEditableSocialsList();
+      sfx.playPop();
+    };
+  });
+
+  container.querySelectorAll(".social-url-input").forEach(inp => {
+    inp.oninput = (e) => {
+      const idx = parseInt(e.target.getAttribute("data-idx"));
+      appData.socials[idx].url = e.target.value;
+      saveBioData();
+      renderApp();
+    };
+  });
+
+  container.querySelectorAll(".social-toggle-checkbox").forEach(chk => {
+    chk.onchange = (e) => {
+      const idx = parseInt(e.target.getAttribute("data-idx"));
+      appData.socials[idx].enabled = e.target.checked;
+      saveBioData();
+      renderApp();
+      sfx.playPop();
+    };
+  });
+}
+
+function renderFontSelector() {
+  const container = document.getElementById("fontGridSelector");
+  if (!container) return;
+  container.innerHTML = "";
+
+  VIETNAMESE_FONTS.forEach(font => {
+    const card = document.createElement("div");
+    card.className = "font-card-option" + (appData.font === font.id ? " active" : "");
+    card.setAttribute("data-font-id", font.id);
+    card.innerHTML = `
+      <div class="font-card-name">
+        <span style="font-family: ${font.family}">${font.name}</span>
+        ${appData.font === font.id ? '<span style="color:#8b5cf6; font-size:0.75rem;">✓ Đang chọn</span>' : ''}
+      </div>
+      <div class="font-card-desc">${font.desc}</div>
+      <div class="font-card-preview" style="font-family: ${font.family}">
+        ${font.preview}
+      </div>
+    `;
+
+    card.onclick = () => {
+      appData.font = font.id;
+      saveBioData();
+      renderApp();
+      renderFontSelector();
+      sfx.playPop();
+      showToast(`Đã áp dụng font ${font.name}`);
+    };
+
+    container.appendChild(card);
+  });
 }
 
 function generateIconOptions(selectedIcon) {
@@ -561,7 +764,7 @@ function renderEditableLinksList() {
 
       <div style="display:flex; gap:10px; margin-bottom:8px;">
         <div style="flex:1;">
-          <label class="form-label">Biểu tượng (Icon):</label>
+          <label class="form-label">Biểu tượng (Icon mặc định):</label>
           <select class="form-select link-edit-icon" data-idx="${idx}">
             ${generateIconOptions(link.icon)}
           </select>
@@ -569,6 +772,38 @@ function renderEditableLinksList() {
         <div style="width:75px;">
           <label class="form-label">Màu nền:</label>
           <input type="color" class="form-input link-edit-color" data-idx="${idx}" value="${link.iconColor || "#3b82f6"}" style="padding:2px; height:36px; cursor:pointer;">
+        </div>
+      </div>
+
+      <!-- Custom Icon Upload Field -->
+      <div class="form-group" style="margin-bottom:8px;">
+        <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Icon riêng tải lên:</span>
+          ${link.customIcon ? `<span style="color:#10b981; font-weight:600; font-size:0.75rem;">✓ Đang dùng icon riêng</span>` : `<span style="color:#64748b; font-size:0.75rem;">(Tùy chọn tải ảnh riêng)</span>`}
+        </label>
+        <div class="custom-icon-control">
+          <div class="custom-icon-preview-wrap">
+            ${link.customIcon ? `
+              <img src="${link.customIcon}" alt="Icon riêng" class="custom-icon-thumb">
+              <span style="font-size:0.75rem; color:#334155; font-weight:600;">Ảnh icon tùy chỉnh</span>
+            ` : `
+              <span style="font-size:0.75rem; color:#64748b;">Dùng icon mặc định (${link.icon})</span>
+            `}
+          </div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <label class="btn-upload-icon" title="Tải ảnh PNG, SVG, JPG làm icon riêng">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>${link.customIcon ? "Đổi ảnh" : "Tải icon riêng"}</span>
+              <input type="file" class="link-custom-icon-file" data-idx="${idx}" accept="image/*" style="display:none;">
+            </label>
+            ${link.customIcon ? `
+              <button class="btn-remove-icon" data-remove-custom-icon="${idx}" title="Xóa icon riêng, dùng lại icon mặc định">✕ Bỏ</button>
+            ` : ""}
+          </div>
         </div>
       </div>
 
@@ -666,6 +901,70 @@ function attachLinkItemEvents() {
       saveBioData();
       renderApp();
       renderEditableLinksList();
+      sfx.playPop();
+    };
+  });
+
+  // Custom Icon File Upload
+  container.querySelectorAll(".link-custom-icon-file").forEach(input => {
+    input.onchange = (e) => {
+      const idx = parseInt(e.target.getAttribute("data-idx"));
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 128;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          const optimizedDataUrl = canvas.toDataURL("image/png");
+
+          appData.links[idx].customIcon = optimizedDataUrl;
+          saveBioData();
+          renderApp();
+          renderEditableLinksList();
+          showToast(`Đã đổi icon riêng cho "${appData.links[idx].title}"`);
+          sfx.playPop();
+        };
+        img.onerror = () => {
+          appData.links[idx].customIcon = event.target.result;
+          saveBioData();
+          renderApp();
+          renderEditableLinksList();
+          showToast(`Đã đổi icon riêng cho "${appData.links[idx].title}"`);
+          sfx.playPop();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+  });
+
+  // Remove Custom Icon
+  container.querySelectorAll("[data-remove-custom-icon]").forEach(btn => {
+    btn.onclick = (e) => {
+      const idx = parseInt(e.currentTarget.getAttribute("data-remove-custom-icon"));
+      appData.links[idx].customIcon = null;
+      saveBioData();
+      renderApp();
+      renderEditableLinksList();
+      showToast("Đã chuyển về icon mặc định");
       sfx.playPop();
     };
   });
@@ -904,6 +1203,8 @@ function exportStandaloneHtml() {
   }
 
 
+  const activeFont = VIETNAMESE_FONTS.find(f => f.id === appData.font) || VIETNAMESE_FONTS[0];
+
   const htmlContent = `<!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -911,10 +1212,13 @@ function exportStandaloneHtml() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(appData.profile.name)} | Bio Link</title>
   <meta name="description" content="${escapeHtml(appData.profile.bio)}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Comfortaa:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: ${activeFont.family};
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -1027,7 +1331,7 @@ function exportStandaloneHtml() {
           <div class="card-paper-bg"></div>
           ${l.badge ? `<span class="badge">${l.badge}</span>` : ""}
           <div class="card-icon" style="background-color: ${l.iconColor};">
-            ${SVG_ICONS[l.icon] || SVG_ICONS.globe}
+            ${l.customIcon ? `<img src="${l.customIcon}" style="width:24px;height:24px;object-fit:contain;border-radius:6px;display:block;">` : (SVG_ICONS[l.icon] || SVG_ICONS.globe)}
           </div>
           <div class="card-content">
             <div class="card-title">${escapeHtml(l.title)}</div>
@@ -1055,6 +1359,24 @@ function exportStandaloneHtml() {
 document.addEventListener("DOMContentLoaded", () => {
   renderApp();
   populateDrawerInputs();
+
+  const drawerTabQuery = urlParams.get("tab");
+  if (drawerTabQuery) {
+    const drawer = document.getElementById("editorDrawer");
+    const backdrop = document.getElementById("editorBackdrop");
+    if (drawer && backdrop) {
+      drawer.classList.add("open");
+      backdrop.classList.add("open");
+      document.querySelectorAll(".drawer-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+      const targetTab = document.querySelector(`.drawer-tab[data-tab="tab-${drawerTabQuery}"]`);
+      const targetPane = document.getElementById(`tab-${drawerTabQuery}`);
+      if (targetTab && targetPane) {
+        targetTab.classList.add("active");
+        targetPane.classList.add("active");
+      }
+    }
+  }
 
   // Theme Switcher Buttons (Nav Pills)
   document.querySelectorAll("[data-set-theme]").forEach(btn => {
@@ -1216,23 +1538,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Social Inputs Change
-  document.querySelectorAll(".social-input").forEach(inp => {
-    inp.addEventListener("input", (e) => {
-      const platform = e.target.getAttribute("data-platform");
-      const val = e.target.value.trim();
-      let soc = appData.socials.find(s => s.platform === platform);
-      if (!soc) {
-        soc = { platform, url: val, enabled: true };
-        appData.socials.push(soc);
-      } else {
-        soc.url = val;
-        soc.enabled = Boolean(val);
-      }
+  // Add New Social Media Button
+  const addNewSocialBtn = document.getElementById("addNewSocialBtn");
+  if (addNewSocialBtn) {
+    addNewSocialBtn.addEventListener("click", () => {
+      appData.socials.push({
+        platform: "facebook",
+        url: "https://",
+        enabled: true
+      });
       saveBioData();
       renderApp();
+      renderEditableSocialsList();
+      showToast("Đã thêm biểu tượng MXH mới!");
+      sfx.playPop();
     });
-  });
+  }
 
   // View Mode Toggle
   const viewModeBtn = document.getElementById("viewModeToggleBtn");

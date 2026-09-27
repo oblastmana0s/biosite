@@ -29,10 +29,22 @@ Trang Bio Link cá nhân / cửa hàng trực tuyến phong cách **Pastel & Pap
   - **Thanh toán & Donate**: MoMo, Mã QR Ngân hàng, Buy Me a Coffee, Patreon...
   - **Tự động nhận diện màu thương hiệu**: Khi chọn icon Shopee, Zalo, TikTok Shop,... hệ thống tự động đổi màu nút tương ứng với thương hiệu.
 
+- 🔤 **Bộ Chọn Phông Chữ Tiếng Việt Thẩm Mỹ**:
+  - Tích hợp sẵn 10 font tiếng Việt đẹp và phổ biến nhất (Quicksand bo tròn cute, Be Vietnam Pro chuẩn mực hiện đại, Nunito mềm mại, Comfortaa kawaii, Plus Jakarta Sans, Montserrat, Playfair Display cổ điển, Lora hoài cổ, Dancing Script viết tay bay bổng).
+  - Áp dụng đồng bộ ngay lập tức cho toàn bộ giao diện và lưu tự động.
+
+- 🔀 **Tùy Biến & Sắp Xếp Thứ Tự Biểu Tượng MXH**:
+  - Dễ dàng thay đổi thứ tự hiển thị của các icon mạng xã hội bằng nút bấm **▲ Lên** và **▼ Xuống**.
+  - Tự do thêm/xóa/ẩn/hiện bất kỳ nền tảng nào trong hơn 36+ dịch vụ.
+
+- 🖼️ **Tải Icon Riêng Cho Từng Ô Liên Kết**:
+  - Hỗ trợ tải lên ảnh icon riêng (PNG, SVG, JPG) cho từng nút liên kết bên cạnh kho icon vector mặc định.
+  - Tích hợp trình xem trước ảnh thu nhỏ và nút hoàn tác về icon mặc định bất cứ lúc nào.
+
 - 🛠️ **Trình Tùy Chỉnh Trực Tiếp (Live Customizer Drawer)**:
   - Chỉnh sửa Profile (Tên, Bio, Avatar, Tích xanh Verified).
-  - Quản lý Links (Thêm/Sửa/Xóa, đổi icon, đổi màu nút, bật/tắt badge Nổi bật).
-  - Đổi theme trực tiếp với thanh vuốt nhanh trên mobile hoặc chọn đầy đủ trong menu.
+  - Quản lý Links (Thêm/Sửa/Xóa, đổi icon, tải ảnh riêng, đổi màu nền nút, bật/tắt badge Nổi bật).
+  - Đổi theme và font chữ trực tiếp với thanh vuốt nhanh trên mobile hoặc chọn đầy đủ trong menu.
   - Tự động lưu mọi thay đổi vào `localStorage`.
   - Tích hợp tạo mã QR chia sẻ và copy link nhanh.
 

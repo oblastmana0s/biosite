@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reese Kim | Bio Link</title>
-  <meta name="description" content="Reese Kim - Cozy reviews, spicy takes. Official bio links, social channels, and storefront.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Comfortaa:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
@@ -305,72 +307,20 @@
       </div>
 
       <!-- 3. SOCIALS TAB -->
+      <!-- 3. SOCIALS TAB (Reorderable & Customizable) -->
       <div class="tab-pane" id="tab-socials">
-        <p class="form-hint" style="margin-bottom:14px;">Nhập link các nền tảng mạng xã hội bạn dùng (để trống nếu không dùng):</p>
-        
-        <div class="form-group">
-          <label class="form-label">Facebook</label>
-          <input type="text" class="form-input social-input" data-platform="facebook" placeholder="https://facebook.com/yourprofile">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <span style="font-size:0.88rem; font-weight:700; color:#334155;">Thứ tự biểu tượng MXH</span>
+            <p class="form-hint" style="margin:2px 0 0 0;">Dùng nút ▲ ▼ để sắp xếp thứ tự hiển thị</p>
+          </div>
+          <button class="btn-nav primary" id="addNewSocialBtn" style="padding: 6px 12px; font-size:0.8rem;">
+            + Thêm MXH
+          </button>
         </div>
-        <div class="form-group">
-          <label class="form-label">Messenger</label>
-          <input type="text" class="form-input social-input" data-platform="messenger" placeholder="https://m.me/yourprofile">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Zalo</label>
-          <input type="text" class="form-input social-input" data-platform="zalo" placeholder="https://zalo.me/0912345678">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Instagram</label>
-          <input type="text" class="form-input social-input" data-platform="instagram" placeholder="https://instagram.com/yourhandle">
-        </div>
-        <div class="form-group">
-          <label class="form-label">TikTok</label>
-          <input type="text" class="form-input social-input" data-platform="tiktok" placeholder="https://tiktok.com/@yourhandle">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Shopee (Shop / Gian hàng)</label>
-          <input type="text" class="form-input social-input" data-platform="shopee" placeholder="https://shopee.vn/yourshop">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Threads</label>
-          <input type="text" class="form-input social-input" data-platform="threads" placeholder="https://threads.net/@yourhandle">
-        </div>
-        <div class="form-group">
-          <label class="form-label">YouTube</label>
-          <input type="text" class="form-input social-input" data-platform="youtube" placeholder="https://youtube.com/@yourchannel">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Twitter / X</label>
-          <input type="text" class="form-input social-input" data-platform="twitter" placeholder="https://twitter.com/yourhandle">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Telegram</label>
-          <input type="text" class="form-input social-input" data-platform="telegram" placeholder="https://t.me/yourusername">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Discord</label>
-          <input type="text" class="form-input social-input" data-platform="discord" placeholder="https://discord.gg/yourinvite">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Spotify</label>
-          <input type="text" class="form-input social-input" data-platform="spotify" placeholder="https://open.spotify.com/artist/...">
-        </div>
-        <div class="form-group">
-          <label class="form-label">GitHub</label>
-          <input type="text" class="form-input social-input" data-platform="github" placeholder="https://github.com/yourusername">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Buy Me a Coffee / Ủng hộ</label>
-          <input type="text" class="form-input social-input" data-platform="coffee" placeholder="https://buymeacoffee.com/yourname">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email liên hệ</label>
-          <input type="email" class="form-input social-input" data-platform="email" placeholder="mailto:yourname@example.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Số điện thoại / Hotline</label>
-          <input type="text" class="form-input social-input" data-platform="phone" placeholder="tel:0912345678">
+
+        <div id="editableSocialsContainer">
+          <!-- Dynamically populated by renderEditableSocialsList() -->
         </div>
       </div>
 
@@ -451,6 +401,16 @@
           </div>
         </div>
 
+        <!-- Vietnamese Font Selector -->
+        <div class="font-selector-section" style="margin-top:24px; padding-top:18px; border-top:1px solid #e2e8f0;">
+          <div style="margin-bottom:12px;">
+            <label class="form-label" style="font-size:0.88rem; font-weight:700;">Kiểu chữ (Font tiếng Việt):</label>
+            <p class="form-hint" style="margin-top:2px;">Chọn phông chữ thẩm mỹ hỗ trợ tiếng Việt đầy đủ cho Bio Link</p>
+          </div>
+          <div class="font-grid-selector" id="fontGridSelector">
+            <!-- Dynamically populated by renderFontSelector() -->
+          </div>
+        </div>
 
       </div>
 
