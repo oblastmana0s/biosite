@@ -37,6 +37,11 @@ Trang Bio Link cá nhân / cửa hàng trực tuyến phong cách **Pastel & Pap
   - Dễ dàng thay đổi thứ tự hiển thị của các icon mạng xã hội bằng nút bấm **▲ Lên** và **▼ Xuống**.
   - Tự do thêm/xóa/ẩn/hiện bất kỳ nền tảng nào trong hơn 36+ dịch vụ.
 
+- 🔗 **Tùy Chọn Bật/Tắt Điều Hướng & Chế Độ Trang Trí Decor ✨**:
+  - Cho phép chọn chế độ **🔗 Điều Hướng: BẬT** (mở trang cá nhân khi người xem click) hoặc **✨ Chỉ Để Trang Trí** (không điều hướng, dùng làm điểm nhấn thẩm mỹ đáng yêu cho trang bio).
+  - Khi ở chế độ trang trí, người xem click vào sẽ phát hiệu ứng âm thanh pop cute và lời nhắn ngọt ngào, không yêu cầu bắt buộc phải dán URL.
+  - Chuẩn hóa toàn bộ vector icon sắc nét, chính xác 100% nhận diện thương hiệu cho Lazada (Heart Origami 3D), Amazon, Shopee, Zalo, Threads, SoundCloud, Podcast, MoMo, QR Bank, Buy Me a Coffee, Patreon, Goodreads, Substack,...
+
 - 🖼️ **Tải Icon Riêng Cho Từng Ô Liên Kết**:
   - Hỗ trợ tải lên ảnh icon riêng (PNG, SVG, JPG) cho từng nút liên kết bên cạnh kho icon vector mặc định.
   - Tích hợp trình xem trước ảnh thu nhỏ và nút hoàn tác về icon mặc định bất cứ lúc nào.

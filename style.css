@@ -823,6 +823,16 @@ body.mode-fullscreen .phone-screen {
   transform: translateY(-2px) scale(1.18);
 }
 
+.social-link.decorative-social {
+  cursor: pointer;
+  position: relative;
+}
+
+.social-link.decorative-social:hover {
+  color: var(--social-icon-hover);
+  transform: translateY(-2px) scale(1.22);
+}
+
 /* --------------------------------------------------------------------------
    LINK CARDS & TORN PAPER EFFECT
    -------------------------------------------------------------------------- */
@@ -1018,17 +1028,42 @@ body.mode-fullscreen .phone-screen {
 .editor-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.12);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   z-index: 1999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.25s ease;
 }
 
 .editor-backdrop.open {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Desktop Split-Screen Live Editor Studio (Drawer on left, Phone preview sharp on right) */
+@media (min-width: 860px) {
+  .editor-backdrop {
+    display: none !important;
+    pointer-events: none !important;
+  }
+  
+  body.drawer-open .main-stage {
+    padding-left: 440px;
+  }
+
+  body.drawer-open .app-header {
+    padding-left: 460px;
+  }
+
+  .main-stage {
+    transition: padding-left 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .app-header {
+    transition: padding-left 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 .drawer-header {
@@ -1305,6 +1340,64 @@ input:checked + .slider:before {
   display: block;
 }
 
+/* Custom Icon in Socials Bar */
+.social-link img.custom-social-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 5px;
+  display: block;
+}
+
+.social-svg-wrapper,
+.card-svg-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Animated Icons (GIFs & CSS Animation Effects) */
+.custom-card-icon,
+.custom-social-icon {
+  image-rendering: auto;
+  image-rendering: -webkit-optimize-contrast;
+  display: block;
+}
+
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(4deg); }
+}
+
+@keyframes icon-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+@keyframes icon-sparkle {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.4)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.9)); transform: scale(1.12); }
+}
+
+.anim-bounce { animation: icon-bounce 1.6s infinite ease-in-out; }
+.anim-pulse { animation: icon-pulse 1.8s infinite ease-in-out; }
+.anim-float { animation: icon-float 2.5s infinite ease-in-out; }
+.anim-wiggle { animation: icon-wiggle 1.3s infinite ease-in-out; }
+.anim-sparkle { animation: icon-sparkle 1.8s infinite ease-in-out; }
+
 /* Custom Icon Upload in Drawer Link Editor */
 .custom-icon-control {
   margin-top: 6px;
@@ -1422,10 +1515,79 @@ input:checked + .slider:before {
   flex: 1;
 }
 
+.social-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  gap: 8px;
+}
+
+.social-nav-toggle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.social-nav-toggle-badge.mode-link {
+  background: #eef2ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+.social-nav-toggle-badge.mode-link:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+
+.social-nav-toggle-badge.mode-decor {
+  background: #fdf2f8;
+  color: #db2777;
+  border-color: #fbcfe8;
+}
+.social-nav-toggle-badge.mode-decor:hover {
+  background: #fce7f3;
+  border-color: #f9a8d4;
+}
+
+.social-visibility-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  user-select: none;
+}
+.social-visibility-toggle input[type="checkbox"] {
+  accent-color: #8b5cf6;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
 .social-input-row {
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: opacity 0.2s ease;
+}
+
+.social-input-row.decor-dimmed {
+  opacity: 0.75;
+}
+.social-input-row.decor-dimmed .form-input {
+  border-style: dashed;
+  background: #f8fafc;
+  color: #64748b;
 }
 
 .social-input-row .form-input {
