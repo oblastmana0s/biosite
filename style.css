@@ -618,10 +618,10 @@ html, body {
   display: none;
 }
 
-/* Dynamic Island */
+/* Dynamic Island (Permanently locked to absolute center of phone-frame) */
 .dynamic-island {
-  position: sticky;
-  top: 11px;
+  position: absolute;
+  top: 22px;
   left: 50%;
   transform: translateX(-50%);
   width: 105px;
@@ -634,8 +634,6 @@ html, body {
   justify-content: flex-end;
   padding-right: 10px;
   pointer-events: none;
-  flex-shrink: 0;
-  margin-bottom: -15px;
 }
 
 .island-camera {
@@ -711,7 +709,7 @@ body.mode-fullscreen .phone-screen {
 
 .bio-container {
   width: 100%;
-  padding: 40px 20px 48px 20px;
+  padding: 44px 20px 48px 20px;
   position: relative;
   z-index: 2;
   display: flex;
@@ -1078,6 +1076,36 @@ body.mode-fullscreen .phone-screen {
   font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
+}
+
+.auto-save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #059669;
+  font-weight: 600;
+  margin-top: 3px;
+  background: #ecfdf5;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid #a7f3d0;
+}
+
+.auto-save-indicator .save-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 .drawer-close-btn {

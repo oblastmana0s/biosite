@@ -307,8 +307,19 @@ function loadBioData() {
 function saveBioData() {
   try {
     localStorage.setItem("bio_link_pro_data", JSON.stringify(appData));
+    const statusText = document.getElementById("saveStatusText");
+    if (statusText) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      statusText.textContent = `Đã lưu tự động (${timeStr})`;
+    }
   } catch (e) {
     console.error("Failed to save to localStorage:", e);
+    const statusText = document.getElementById("saveStatusText");
+    if (statusText) {
+      statusText.textContent = `Lỗi lưu trữ (bộ nhớ đầy hoặc bị chặn)`;
+      statusText.style.color = "#ef4444";
+    }
   }
 }
 
@@ -1902,6 +1913,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (targetTab) targetTab.click();
     }
   }
+
+  // Crash & Accidental Tab Close Protection: Guarantee data commit on tab hide or close
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      saveBioData();
+    }
+  });
+  window.addEventListener("pagehide", () => {
+    saveBioData();
+  });
+  window.addEventListener("beforeunload", () => {
+    saveBioData();
+  });
 });
 
 

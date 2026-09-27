@@ -182,7 +182,13 @@
   <div class="editor-backdrop" id="editorBackdrop"></div>
   <aside class="editor-drawer" id="editorDrawer" aria-label="Bảng chỉnh sửa Bio">
     <div class="drawer-header">
-      <h2 class="drawer-title">Tùy Chỉnh Bio Link</h2>
+      <div>
+        <h2 class="drawer-title">Tùy Chỉnh Bio Link</h2>
+        <div class="auto-save-indicator" id="autoSaveIndicator" title="Mọi thay đổi được lưu tức thì vào ổ cứng (localStorage)">
+          <span class="save-dot"></span>
+          <span id="saveStatusText">Tự động lưu vào máy</span>
+        </div>
+      </div>
       <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Đóng">&times;</button>
     </div>
 
@@ -429,12 +435,33 @@
           </button>
         </div>
 
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; margin-bottom:16px;">
-          <h4 style="font-size:0.95rem; font-weight:700; color:#0f172a; margin-bottom:6px;">Sao lưu & Phục hồi dữ liệu</h4>
-          <p class="form-hint" style="margin-bottom:12px;">Xuất cấu hình Bio Link của bạn sang dạng JSON hoặc nhập lại dữ liệu đã lưu.</p>
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:16px; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <h4 style="font-size:0.95rem; font-weight:700; color:#14532d; margin:0;">Bảo vệ dữ liệu & Tự động lưu</h4>
+          </div>
+          <p class="form-hint" style="color:#166534; margin-bottom:12px; line-height:1.45;">
+            Trang web <strong>tự động lưu tức thì</strong> mọi thay đổi vào bộ nhớ máy bạn (localStorage). Dù vô tình tắt tab hay sập nguồn, khi mở lại toàn bộ dữ liệu vẫn còn nguyên vẹn. Bạn cũng có thể tải file sao lưu JSON về máy để chuyển qua thiết bị khác.
+          </p>
           <div style="display:flex; gap:10px;">
-            <button class="btn-nav" id="exportJsonBtn" style="flex:1; justify-content:center;">Xuất JSON</button>
-            <button class="btn-nav" id="importJsonBtn" style="flex:1; justify-content:center;">Nhập JSON</button>
+            <button class="btn-nav" id="exportJsonBtn" style="flex:1; justify-content:center; background:#ffffff; border-color:#86efac; color:#166534;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span style="margin-left:5px;">Tải file sao lưu (.json)</span>
+            </button>
+            <button class="btn-nav" id="importJsonBtn" style="flex:1; justify-content:center; background:#ffffff; border-color:#cbd5e1;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span style="margin-left:5px;">Khôi phục từ file</span>
+            </button>
             <input type="file" id="importJsonFile" accept=".json" style="display:none;">
           </div>
         </div>
