@@ -1845,6 +1845,119 @@ input:checked + .slider:before {
 }
 
 /* --------------------------------------------------------------------------
+   HOURLY SNAPSHOTS & HISTORY PERSISTENCE
+   -------------------------------------------------------------------------- */
+
+.history-snapshots-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.snapshots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-top: 10px;
+  padding-right: 2px;
+}
+
+.snapshot-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: var(--transition-smooth);
+}
+
+.snapshot-item:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.snapshot-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.snapshot-time {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.snapshot-desc {
+  font-size: 0.72rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.snapshot-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.btn-restore-snap {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-restore-snap:hover {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.btn-delete-snap {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.btn-delete-snap:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+.snapshot-empty {
+  text-align: center;
+  padding: 18px 12px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+}
+
+/* --------------------------------------------------------------------------
    MODAL WINDOW (QR & SHARE)
    -------------------------------------------------------------------------- */
 

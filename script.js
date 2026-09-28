@@ -266,37 +266,277 @@ class SoundFX {
 const sfx = new SoundFX();
 
 // =============================================================================
-// 4. STORAGE FUNCTIONS
+// 4. STORAGE & HOURLY SNAPSHOTS ENGINE (IndexedDB + LocalStorage Dual Layer)
 // =============================================================================
+const DB_NAME = "BioLinkProDB";
+const DB_VERSION = 1;
+const STORE_NAME = "bio_store";
+
+class BioStorageEngine {
+  constructor() {
+    this.db = null;
+    this.readyPromise = this.initDB();
+  }
+
+  initDB() {
+    return new Promise((resolve) => {
+      if (!window.indexedDB) {
+        console.warn("IndexedDB not supported, falling back to LocalStorage.");
+        resolve(null);
+        return;
+      }
+      try {
+        const request = window.indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+        request.onsuccess = (e) => {
+          this.db = e.target.result;
+          resolve(this.db);
+        };
+        request.onerror = (e) => {
+          console.error("IndexedDB open error:", e);
+          resolve(null);
+        };
+      } catch (err) {
+        console.error("IndexedDB init exception:", err);
+        resolve(null);
+      }
+    });
+  }
+
+  async get(key) {
+    await this.readyPromise;
+    if (!this.db) return null;
+    return new Promise((resolve) => {
+      try {
+        const tx = this.db.transaction(STORE_NAME, "readonly");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.get(key);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => resolve(null);
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  }
+
+  async set(key, value) {
+    await this.readyPromise;
+    if (!this.db) return false;
+    return new Promise((resolve) => {
+      try {
+        const tx = this.db.transaction(STORE_NAME, "readwrite");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.put(value, key);
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => resolve(false);
+      } catch (e) {
+        resolve(false);
+      }
+    });
+  }
+}
+const bioDB = new BioStorageEngine();
+
+// --- Normalize Bio Data Helper ---
+function normalizeBioData(data) {
+  if (!data) return;
+  if (!data.profile) data.profile = {};
+  if (!data.profile.avatar || data.profile.avatar.includes("reese_avatar.png") || data.profile.avatar.includes("unsplash.com")) {
+    data.profile.avatar = "assets/avatar_strawberry.png";
+  }
+  if (!data.font) {
+    data.font = "quicksand";
+  }
+  if (!Array.isArray(data.socials) || data.socials.length === 0) {
+    data.socials = JSON.parse(JSON.stringify(DEFAULT_BIO_DATA.socials));
+  } else {
+    data.socials.forEach(s => {
+      if (s.allowNav === undefined) s.allowNav = true;
+      if (s.customIcon === undefined) s.customIcon = null;
+      if (s.iconAnim === undefined) s.iconAnim = "none";
+    });
+  }
+  if (Array.isArray(data.links)) {
+    data.links.forEach(l => {
+      if (l.allowNav === undefined) l.allowNav = true;
+      if (l.customIcon === undefined) l.customIcon = null;
+      if (l.iconAnim === undefined) l.iconAnim = "none";
+    });
+  }
+}
+
+// --- Snapshot Management ---
+async function loadSnapshotsList() {
+  let list = await bioDB.get("bio_snapshots");
+  if (!Array.isArray(list)) {
+    try {
+      const fromLocal = localStorage.getItem("bio_snapshots_meta");
+      if (fromLocal) list = JSON.parse(fromLocal);
+    } catch (e) {}
+  }
+  return Array.isArray(list) ? list : [];
+}
+
+async function saveSnapshotsList(list) {
+  await bioDB.set("bio_snapshots", list);
+  try {
+    const lightList = list.slice(0, 10).map(s => ({
+      id: s.id,
+      timestamp: s.timestamp,
+      timeString: s.timeString,
+      title: s.title,
+      profileName: s.profileName,
+      linkCount: s.linkCount,
+      theme: s.theme,
+      data: s.data
+    }));
+    localStorage.setItem("bio_snapshots_meta", JSON.stringify(lightList));
+  } catch (e) {
+    // If quota exceeded, IndexedDB already holds the full list safely
+  }
+}
+
+async function createSnapshot(manual = false, customTitle = "") {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  const dateStr = now.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
+  const timeString = `${timeStr} (${dateStr})`;
+
+  const profileName = (appData.profile && appData.profile.name) ? appData.profile.name : "Hồ sơ";
+  const snapshotTitle = customTitle || `${profileName} - ${appData.links.length} liên kết (${appData.theme})`;
+
+  const snapshot = {
+    id: `snap_${Date.now()}`,
+    timestamp: Date.now(),
+    timeString: timeString,
+    title: snapshotTitle,
+    profileName: profileName,
+    linkCount: appData.links.length,
+    theme: appData.theme,
+    isManual: manual,
+    data: JSON.parse(JSON.stringify(appData))
+  };
+
+  const list = await loadSnapshotsList();
+
+  // Avoid creating identical automatic snapshots within 3 minutes
+  if (!manual && list.length > 0) {
+    const latest = list[0];
+    if (Date.now() - latest.timestamp < 3 * 60 * 1000) {
+      return latest;
+    }
+  }
+
+  list.unshift(snapshot);
+  if (list.length > 30) list.pop(); // Keep last 30 snapshots
+
+  await saveSnapshotsList(list);
+  renderSnapshotsUI();
+  return snapshot;
+}
+
+async function restoreSnapshot(snapshotId) {
+  const list = await loadSnapshotsList();
+  const snap = list.find(s => s.id === snapshotId);
+  if (!snap || !snap.data) {
+    alert("Không tìm thấy dữ liệu mốc lưu này!");
+    return;
+  }
+
+  if (confirm(`Bạn có chắc muốn khôi phục lại mốc lưu lúc [${snap.timeString}]?\n\n- Tên hồ sơ: ${snap.profileName || "Hồ sơ"}\n- Số lượng liên kết: ${snap.linkCount} ô\n- Giao diện: ${snap.theme || "mặc định"}`)) {
+    // Safety auto-backup before restore
+    await createSnapshot(true, `Sao lưu trước khi khôi phục mốc ${snap.timeString}`);
+
+    appData = JSON.parse(JSON.stringify(snap.data));
+    normalizeBioData(appData);
+    saveBioData();
+    renderApp();
+    populateDrawerInputs();
+    renderSnapshotsUI();
+    showToast(`✨ Đã khôi phục thành công mốc lưu lúc ${snap.timeString}!`);
+    sfx.playPop();
+  }
+}
+
+async function deleteSnapshot(snapshotId) {
+  let list = await loadSnapshotsList();
+  list = list.filter(s => s.id !== snapshotId);
+  await saveSnapshotsList(list);
+  renderSnapshotsUI();
+  showToast("Đã xóa mốc lưu trữ");
+  sfx.playPop();
+}
+
+async function renderSnapshotsUI() {
+  const container = document.getElementById("snapshotsList");
+  if (!container) return;
+
+  const list = await loadSnapshotsList();
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div class="snapshot-empty">
+        <p>Chưa có mốc lưu nào. Bấm <strong>"📸 Chụp bản lưu ngay"</strong> để tạo điểm khôi phục đầu tiên!</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(snap => `
+    <div class="snapshot-item" data-snap-id="${snap.id}">
+      <div class="snapshot-info">
+        <div class="snapshot-time">
+          <span>🕒 ${escapeHtml(snap.timeString)}</span>
+          ${snap.isManual ? `<span style="font-size:0.65rem; background:#e0e7ff; color:#4338ca; padding:1px 6px; border-radius:10px;">Thủ công</span>` : `<span style="font-size:0.65rem; background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:10px;">Tự động</span>`}
+        </div>
+        <div class="snapshot-desc" title="${escapeHtml(snap.title)}">
+          <strong>${escapeHtml(snap.profileName || "Hồ sơ")}</strong> • ${snap.linkCount} liên kết • ${escapeHtml(snap.theme)}
+        </div>
+      </div>
+      <div class="snapshot-actions">
+        <button class="btn-restore-snap" data-restore-snap-id="${snap.id}" title="Khôi phục toàn bộ giao diện và dữ liệu mốc này">
+          ↺ Khôi phục
+        </button>
+        <button class="btn-delete-snap" data-delete-snap-id="${snap.id}" title="Xóa mốc này">✕</button>
+      </div>
+    </div>
+  `).join("");
+
+  container.querySelectorAll("[data-restore-snap-id]").forEach(btn => {
+    btn.onclick = (e) => {
+      const snapId = e.currentTarget.getAttribute("data-restore-snap-id");
+      restoreSnapshot(snapId);
+    };
+  });
+
+  container.querySelectorAll("[data-delete-snap-id]").forEach(btn => {
+    btn.onclick = (e) => {
+      const snapId = e.currentTarget.getAttribute("data-delete-snap-id");
+      deleteSnapshot(snapId);
+    };
+  });
+}
+
+let lastAutoSnapshotTime = Date.now();
+function checkHourlyAutoSnapshot() {
+  const now = Date.now();
+  // Automatically create snapshot every 20 minutes if active
+  if (now - lastAutoSnapshotTime > 20 * 60 * 1000) {
+    lastAutoSnapshotTime = now;
+    createSnapshot(false, `Tự động lưu định kỳ (${new Date().toLocaleTimeString("vi-VN", {hour:'2-digit', minute:'2-digit'})})`);
+  }
+}
+
 function loadBioData() {
   try {
     const saved = localStorage.getItem("bio_link_pro_data");
     if (saved) {
       const data = JSON.parse(saved);
-      // Auto-migrate old real-person avatar to cute avatar
-      if (!data.profile || !data.profile.avatar || data.profile.avatar.includes("reese_avatar.png") || data.profile.avatar.includes("unsplash.com")) {
-        if (!data.profile) data.profile = {};
-        data.profile.avatar = "assets/avatar_strawberry.png";
-      }
-      if (!data.font) {
-        data.font = "quicksand";
-      }
-      if (!Array.isArray(data.socials) || data.socials.length === 0) {
-        data.socials = JSON.parse(JSON.stringify(DEFAULT_BIO_DATA.socials));
-      } else {
-        data.socials.forEach(s => {
-          if (s.allowNav === undefined) s.allowNav = true;
-          if (s.customIcon === undefined) s.customIcon = null;
-          if (s.iconAnim === undefined) s.iconAnim = "none";
-        });
-      }
-      if (Array.isArray(data.links)) {
-        data.links.forEach(l => {
-          if (l.allowNav === undefined) l.allowNav = true;
-          if (l.customIcon === undefined) l.customIcon = null;
-          if (l.iconAnim === undefined) l.iconAnim = "none";
-        });
-      }
+      normalizeBioData(data);
       return data;
     }
   } catch (e) {
@@ -306,22 +546,33 @@ function loadBioData() {
 }
 
 function saveBioData() {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  // 1. Always store full data into IndexedDB (virtually unlimited quota, never fails on base64 GIFs)
+  bioDB.set("current_bio_data", {
+    timestamp: Date.now(),
+    timeStr: timeStr,
+    data: JSON.parse(JSON.stringify(appData))
+  });
+
+  // 2. Also save to LocalStorage for instant initial boot
   try {
     localStorage.setItem("bio_link_pro_data", JSON.stringify(appData));
-    const statusText = document.getElementById("saveStatusText");
-    if (statusText) {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-      statusText.textContent = `Đã lưu tự động (${timeStr})`;
-    }
+    localStorage.setItem("bio_last_saved_time", timeStr);
   } catch (e) {
-    console.error("Failed to save to localStorage:", e);
-    const statusText = document.getElementById("saveStatusText");
-    if (statusText) {
-      statusText.textContent = `Lỗi lưu trữ (bộ nhớ đầy hoặc bị chặn)`;
-      statusText.style.color = "#ef4444";
-    }
+    console.warn("LocalStorage full, full data preserved in IndexedDB:", e);
   }
+
+  // 3. Update status in drawer header
+  const statusText = document.getElementById("saveStatusText");
+  if (statusText) {
+    statusText.textContent = `Đã lưu tự động (${timeStr})`;
+    statusText.style.color = "#059669";
+  }
+
+  // 4. Trigger auto-snapshot check
+  checkHourlyAutoSnapshot();
 }
 
 // =============================================================================
@@ -1957,6 +2208,85 @@ document.addEventListener("DOMContentLoaded", () => {
       if (targetTab) targetTab.click();
     }
   }
+
+  // Create Manual Snapshot
+  const createSnapshotBtn = document.getElementById("createSnapshotBtn");
+  if (createSnapshotBtn) {
+    createSnapshotBtn.addEventListener("click", async () => {
+      const note = prompt("Nhập tên / ghi chú cho mốc lưu này (ví dụ: 'Trước khi đổi link', 'Bản trưa'):", "");
+      if (note !== null) {
+        await createSnapshot(true, note.trim() || undefined);
+        showToast("📸 Đã chụp và lưu mốc thành công!");
+        sfx.playPop();
+      }
+    });
+  }
+
+  // Click auto-save indicator in drawer header to view history snapshots
+  const autoSaveIndicator = document.getElementById("autoSaveIndicator");
+  if (autoSaveIndicator) {
+    autoSaveIndicator.addEventListener("click", () => {
+      const exportTab = document.querySelector(`.drawer-tab[data-tab="tab-export"]`);
+      if (exportTab) {
+        exportTab.click();
+        const snapshotsBox = document.querySelector(".history-snapshots-box");
+        if (snapshotsBox) {
+          snapshotsBox.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  }
+
+  // Async Storage Sync & Auto-Recovery check from IndexedDB
+  (async () => {
+    try {
+      const idbData = await bioDB.get("current_bio_data");
+      const snapshots = await loadSnapshotsList();
+
+      let recovered = null;
+      let reason = "";
+
+      // Check if IndexedDB has custom user data while current appData was reset or is default
+      if (idbData && idbData.data) {
+        normalizeBioData(idbData.data);
+        const idbIsCustom = idbData.data.profile && idbData.data.profile.name && idbData.data.profile.name !== "Mimi & Cozy";
+        const currentIsDefault = !appData.profile || appData.profile.name === "Mimi & Cozy";
+
+        if (currentIsDefault && idbIsCustom) {
+          recovered = idbData.data;
+          reason = `Đã tự động tìm lại dữ liệu: ${idbData.data.profile.name}`;
+        }
+      }
+
+      // If still default, check if any snapshot has user custom data
+      if (!recovered && (!appData.profile || appData.profile.name === "Mimi & Cozy") && snapshots.length > 0) {
+        const snapCandidate = snapshots.find(s => s.data && s.data.profile && s.data.profile.name && s.data.profile.name !== "Mimi & Cozy");
+        if (snapCandidate) {
+          recovered = snapCandidate.data;
+          normalizeBioData(recovered);
+          reason = `Đã khôi phục mốc lưu lúc ${snapCandidate.timeString} (${snapCandidate.profileName})`;
+        }
+      }
+
+      if (recovered) {
+        appData = recovered;
+        saveBioData();
+        renderApp();
+        populateDrawerInputs();
+        showToast(reason || "Đã đồng bộ an toàn từ cơ sở dữ liệu!");
+      }
+
+      // Initialize snapshots list UI in Export tab
+      renderSnapshotsUI();
+
+      // If no snapshot exists yet, create first baseline snapshot
+      if (snapshots.length === 0) {
+        await createSnapshot(false, `Khởi tạo ban đầu (${new Date().toLocaleTimeString("vi-VN", {hour:'2-digit', minute:'2-digit'})})`);
+      }
+    } catch (err) {
+      console.error("Async storage sync error:", err);
+    }
+  })();
 
   // Crash & Accidental Tab Close Protection: Guarantee data commit on tab hide or close
   document.addEventListener("visibilitychange", () => {
