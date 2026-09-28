@@ -23,6 +23,7 @@
   --ui-text: #0f172a;
   --ui-text-muted: #64748b;
   --ui-primary: #0f172a;
+  --verified-color: #1d9bf0;
 }
 
 /* --------------------------------------------------------------------------
@@ -78,7 +79,7 @@
   --text-muted: #5e4b78;
   --social-icon-color: #4f3b6a;
   --social-icon-hover: #1f1136;
-  --verified-color: #8b5cf6;
+  --verified-color: #1d9bf0;
   --card-bg: #ffffff;
   --card-text: #25163b;
   --card-border-radius: 2px;
@@ -119,7 +120,7 @@
   --text-muted: #83394f;
   --social-icon-color: #6b2135;
   --social-icon-hover: #be185d;
-  --verified-color: #ec4899;
+  --verified-color: #1d9bf0;
   --card-bg: #ffffff;
   --card-text: #4a1525;
   --card-border-radius: 2px;
@@ -160,7 +161,7 @@
   --text-muted: #2d6a4f;
   --social-icon-color: #1e5e3a;
   --social-icon-hover: #15803d;
-  --verified-color: #22c55e;
+  --verified-color: #1d9bf0;
   --card-bg: #ffffff;
   --card-text: #144a2c;
   --card-border-radius: 2px;
@@ -201,7 +202,7 @@
   --text-muted: #5b4382;
   --social-icon-color: #432b68;
   --social-icon-hover: #7c3aed;
-  --verified-color: #8b5cf6;
+  --verified-color: #1d9bf0;
   --card-bg: rgba(255, 255, 255, 0.72);
   --card-text: #241442;
   --card-border-radius: 18px;
@@ -270,7 +271,7 @@
   --text-muted: #676192;
   --social-icon-color: #5c558c;
   --social-icon-hover: #1f1b3c;
-  --verified-color: #7b61ff;
+  --verified-color: #1d9bf0;
   --card-bg: #b2b0f8;
   --card-text: #ffffff;
   --card-border-radius: 14px;
@@ -293,7 +294,7 @@
   --text-muted: #83394f;
   --social-icon-color: #6b2135;
   --social-icon-hover: #db2777;
-  --verified-color: #ec4899;
+  --verified-color: #1d9bf0;
   --card-bg: #ffffff;
   --card-text: #4a1525;
   --card-border-radius: 18px;
@@ -321,7 +322,7 @@
   --text-muted: #2d6a4f;
   --social-icon-color: #1e5e3a;
   --social-icon-hover: #15803d;
-  --verified-color: #22c55e;
+  --verified-color: #1d9bf0;
   --card-bg: #ffffff;
   --card-text: #144a2c;
   --card-border-radius: 18px;
@@ -772,7 +773,7 @@ body.mode-fullscreen .phone-screen {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--verified-color, #1d9bf0);
+  color: #1d9bf0;
   width: 20px;
   height: 20px;
   flex-shrink: 0;
