@@ -292,6 +292,7 @@ function loadBioData() {
       }
       if (Array.isArray(data.links)) {
         data.links.forEach(l => {
+          if (l.allowNav === undefined) l.allowNav = true;
           if (l.customIcon === undefined) l.customIcon = null;
           if (l.iconAnim === undefined) l.iconAnim = "none";
         });
@@ -421,11 +422,16 @@ function renderApp() {
   if (linksList) {
     linksList.innerHTML = "";
     appData.links.forEach(link => {
-      const card = document.createElement("a");
-      card.className = "bio-link-card";
-      card.href = link.url || "#";
-      card.target = "_blank";
-      card.rel = "noopener noreferrer";
+      const isNav = link.allowNav !== false;
+      const card = document.createElement(isNav ? "a" : "div");
+      card.className = "bio-link-card" + (isNav ? "" : " text-box-card");
+      if (isNav) {
+        card.href = link.url || "#";
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+      } else {
+        card.setAttribute("role", "note");
+      }
 
       // Badge if any
       const badgeHtml = link.badge ? `<span class="card-badge">${escapeHtml(link.badge)}</span>` : "";
@@ -442,6 +448,12 @@ function renderApp() {
 
       // Notice: card-paper-bg layer holds the torn clip-path and drop-shadow,
       // leaving the text, icons, and badges 100% razor sharp and crisp!
+      const actionHtml = isNav ? `
+        <div class="card-action-box" title="Chia sẻ liên kết này">
+          ${SVG_ICONS.share}
+        </div>
+      ` : "";
+
       card.innerHTML = `
         <div class="card-paper-bg"></div>
         ${badgeHtml}
@@ -452,26 +464,26 @@ function renderApp() {
           <div class="card-title">${escapeHtml(link.title)}</div>
           ${link.subtitle ? `<div class="card-subtitle">${escapeHtml(link.subtitle)}</div>` : ""}
         </div>
-        <div class="card-action-box" title="Chia sẻ liên kết này">
-          ${SVG_ICONS.share}
-        </div>
+        ${actionHtml}
       `;
 
-      // Share button micro-click
-      const shareAction = card.querySelector(".card-action-box");
-      if (shareAction) {
-        shareAction.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          copyToClipboard(link.url);
-          showToast(`Đã sao chép link: ${link.title}`);
-          sfx.playPop();
+      if (isNav) {
+        // Share button micro-click
+        const shareAction = card.querySelector(".card-action-box");
+        if (shareAction) {
+          shareAction.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            copyToClipboard(link.url);
+            showToast(`Đã sao chép link: ${link.title}`);
+            sfx.playPop();
+          });
+        }
+
+        card.addEventListener("click", () => {
+          sfx.playPaperRustle();
         });
       }
-
-      card.addEventListener("click", () => {
-        sfx.playPaperRustle();
-      });
 
       linksList.appendChild(card);
     });
@@ -880,6 +892,7 @@ function renderEditableLinksList() {
   container.innerHTML = "";
 
   appData.links.forEach((link, idx) => {
+    const isNav = link.allowNav !== false;
     const item = document.createElement("div");
     item.className = "editable-link-item";
     item.innerHTML = `
@@ -891,18 +904,26 @@ function renderEditableLinksList() {
         <div class="link-item-tools">
           <button class="btn-tool" data-move-up="${idx}" title="Di chuyển lên" ${idx === 0 ? "disabled style='opacity:0.3;'" : ""}>▲</button>
           <button class="btn-tool" data-move-down="${idx}" title="Di chuyển xuống" ${idx === appData.links.length - 1 ? "disabled style='opacity:0.3;'" : ""}>▼</button>
-          <button class="btn-tool delete" data-delete-link="${idx}" title="Xóa liên kết">✕</button>
+          <button class="btn-tool delete" data-delete-link="${idx}" title="Xóa ô này">✕</button>
         </div>
       </div>
 
-      <div class="form-group" style="margin-bottom:8px;">
-        <label class="form-label">Tiêu đề nút:</label>
-        <input type="text" class="form-input link-edit-title" data-idx="${idx}" value="${escapeHtml(link.title)}" placeholder="Tiêu đề...">
+      <!-- Mode Selector: Navigation Link vs Read-Only Text Box -->
+      <div class="link-controls-row">
+        <button type="button" class="link-nav-toggle-badge ${isNav ? "mode-link" : "mode-text"}" data-link-toggle-nav="${idx}" title="Bấm để chuyển đổi giữa Nút bấm điều hướng và Ô văn bản đọc">
+          ${isNav ? "🔗 Nút điều hướng: BẬT" : "📝 Ô văn bản (Chỉ đọc)"}
+        </button>
+        <span class="link-mode-label">${isNav ? "Bấm vào mở liên kết" : "Chỉ để đọc, không chuyển trang"}</span>
       </div>
 
       <div class="form-group" style="margin-bottom:8px;">
-        <label class="form-label">Đường dẫn (URL):</label>
-        <input type="text" class="form-input link-edit-url" data-idx="${idx}" value="${escapeHtml(link.url)}" placeholder="https://...">
+        <label class="form-label">${isNav ? "Tiêu đề nút:" : "Tiêu đề ô văn bản:"}</label>
+        <input type="text" class="form-input link-edit-title" data-idx="${idx}" value="${escapeHtml(link.title)}" placeholder="${isNav ? "Nhập tiêu đề nút..." : "Nhập tiêu đề thông báo / ghi chú..."}">
+      </div>
+
+      <div class="form-group link-url-row ${isNav ? "" : "decor-dimmed"}" style="margin-bottom:8px;">
+        <label class="form-label">${isNav ? "Đường dẫn (URL):" : "Đường dẫn (Không cần nhập khi là ô văn bản):"}</label>
+        <input type="text" class="form-input link-edit-url" data-idx="${idx}" value="${escapeHtml(link.url)}" placeholder="${isNav ? "https://..." : "(Chế độ ô văn bản: Để trống hoặc không dùng)"}">
       </div>
 
       <div style="display:flex; gap:10px; margin-bottom:8px;">
@@ -965,8 +986,8 @@ function renderEditableLinksList() {
 
       <div style="display:flex; gap:10px;">
         <div style="flex:1;">
-          <label class="form-label">Mô tả phụ (Subtitle):</label>
-          <input type="text" class="form-input link-edit-sub" data-idx="${idx}" value="${escapeHtml(link.subtitle || "")}" placeholder="Tùy chọn...">
+          <label class="form-label">${isNav ? "Mô tả phụ (Subtitle):" : "Nội dung chi tiết / Chú thích:"}</label>
+          <textarea class="form-input link-edit-sub" data-idx="${idx}" rows="${isNav ? '1' : '2'}" placeholder="${isNav ? "Mô tả ngắn gọn..." : "Nội dung thông báo, bảng giá, ghi chú chi tiết..."}" style="resize:vertical;">${escapeHtml(link.subtitle || "")}</textarea>
         </div>
         <div style="width:90px;">
           <label class="form-label">Huy hiệu:</label>
@@ -1025,6 +1046,20 @@ function attachLinkItemEvents() {
         showToast("Đã xóa liên kết");
         sfx.playPop();
       }
+    };
+  });
+
+  // Toggle Navigation vs Read-only Text Box
+  container.querySelectorAll("[data-link-toggle-nav]").forEach(btn => {
+    btn.onclick = (e) => {
+      const idx = parseInt(e.currentTarget.getAttribute("data-link-toggle-nav"));
+      const isCurrentlyNav = appData.links[idx].allowNav !== false;
+      appData.links[idx].allowNav = !isCurrentlyNav;
+      saveBioData();
+      renderApp();
+      renderEditableLinksList();
+      showToast(appData.links[idx].allowNav ? `🔗 Đã chuyển "${appData.links[idx].title}" sang nút bấm điều hướng` : `📝 Đã chuyển "${appData.links[idx].title}" sang ô văn bản chỉ đọc ✨`);
+      sfx.playPop();
     };
   });
 
@@ -1455,6 +1490,8 @@ function exportStandaloneHtml() {
       transition: transform 0.2s;
     }
     .card:hover { transform: translateY(-2px); }
+    .card.card-text-only { cursor: default; user-select: text; }
+    .card.card-text-only:hover { transform: none; }
     .card-paper-bg {
       position: absolute;
       inset: 0;
@@ -1533,18 +1570,25 @@ function exportStandaloneHtml() {
     </div>
 
     <div class="links">
-      ${appData.links.map(l => `
-        <a href="${l.url}" class="card" target="_blank" rel="noopener noreferrer">
+      ${appData.links.map(l => {
+        const isNav = l.allowNav !== false;
+        const tag = isNav ? "a" : "div";
+        const hrefAttr = isNav ? `href="${l.url || '#'}" target="_blank" rel="noopener noreferrer"` : `role="note"`;
+        const cardClass = isNav ? "card" : "card card-text-only";
+        return `
+        <${tag} ${hrefAttr} class="${cardClass}">
           <div class="card-paper-bg"></div>
-          ${l.badge ? `<span class="badge">${l.badge}</span>` : ""}
+          ${l.badge ? `<span class="badge">${escapeHtml(l.badge)}</span>` : ""}
           <div class="card-icon" style="background-color: ${l.iconColor};">
             ${l.customIcon ? `<img src="${l.customIcon}" class="custom-card-icon ${l.iconAnim && l.iconAnim !== 'none' ? 'anim-' + l.iconAnim : ''}" style="width:24px;height:24px;object-fit:contain;border-radius:6px;display:block;">` : `<span class="${l.iconAnim && l.iconAnim !== 'none' ? 'anim-' + l.iconAnim : ''}">${SVG_ICONS[l.icon] || SVG_ICONS.globe}</span>`}
           </div>
           <div class="card-content">
             <div class="card-title">${escapeHtml(l.title)}</div>
+            ${l.subtitle ? `<div class="card-subtitle" style="font-size:0.75rem;opacity:0.8;margin-top:2px;white-space:pre-line;">${escapeHtml(l.subtitle)}</div>` : ""}
           </div>
-        </a>
-      `).join("")}
+        </${tag}>
+      `;
+      }).join("")}
     </div>
   </div>
 </body>

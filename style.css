@@ -622,8 +622,10 @@ html, body {
 .dynamic-island {
   position: absolute;
   top: 22px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: 105px;
   height: 27px;
   background: #000000;
@@ -863,6 +865,49 @@ body.mode-fullscreen .phone-screen {
 
 .bio-link-card:active {
   transform: translateY(0);
+}
+
+/* Text Box / Notice Card (Read-only, no navigation) */
+.bio-link-card.text-box-card {
+  cursor: default;
+  user-select: text;
+}
+
+.bio-link-card.text-box-card:hover {
+  transform: none;
+  filter: var(--card-drop-shadow);
+}
+
+.bio-link-card.text-box-card:active {
+  transform: none;
+}
+
+.bio-link-card.text-box-card:hover .card-icon-box {
+  transform: none;
+}
+
+.bio-link-card.text-box-card .card-content {
+  text-align: center;
+  padding: 0 8px;
+}
+
+.bio-link-card.text-box-card .card-title {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
+.bio-link-card.text-box-card .card-subtitle {
+  white-space: pre-line;
+  word-break: break-word;
+  line-height: 1.45;
+  font-size: 0.78rem;
+  opacity: 0.88;
+  margin-top: 4px;
+}
+
+.bio-link-card.text-box-card .card-action-box {
+  display: none;
 }
 
 /* Dedicated Paper Background Layer (Keeps Text Razor Sharp) */
@@ -1357,6 +1402,65 @@ input:checked + .slider:before {
 .btn-tool.delete:hover {
   background: #fee2e2;
   color: #ef4444;
+}
+
+/* Link Mode Controls (Navigation vs Text Box) */
+.link-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  gap: 8px;
+}
+
+.link-nav-toggle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.link-nav-toggle-badge.mode-link {
+  background: #eef2ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+.link-nav-toggle-badge.mode-link:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+
+.link-nav-toggle-badge.mode-text {
+  background: #ecfdf5;
+  color: #059669;
+  border-color: #a7f3d0;
+}
+.link-nav-toggle-badge.mode-text:hover {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+}
+
+.link-mode-label {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.link-url-row.decor-dimmed {
+  opacity: 0.72;
+}
+
+.link-url-row.decor-dimmed .form-input {
+  border-style: dashed;
+  background: #f8fafc;
+  color: #64748b;
 }
 
 /* Custom Icon in Link Cards */
