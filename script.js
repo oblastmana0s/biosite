@@ -200,7 +200,7 @@ const SVG_ICONS = {
   globe: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
   link: `<svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>`,
   share: `<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`,
-  verified: `<svg viewBox="0 0 24 24"><path fill="#1D9BF0" d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 0 .495.084.965.238 1.4C1.575 10.45.7 11.82.7 13.4c0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.79 4 4 4 .495 0 .965-.084 1.4-.238 1.285 1.273 2.655 2.148 4.238 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-1.285 2.148-2.655 2.148-4.238z"/><path fill="#FFF" d="M9.86 16.5l-4.1-4.1 1.41-1.41 2.69 2.69 7.07-7.07 1.41 1.41z"/></svg>`
+  verified: `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.67-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.67-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><path d="M7.8 12.4l2.7 2.7 5.7-5.7" fill="none" stroke="#ffffff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 };
 
 // =============================================================================
@@ -1719,9 +1719,24 @@ function exportStandaloneHtml() {
       gap: 6px;
       font-size: 1.25rem;
       font-weight: 700;
+      line-height: 1.25;
       margin-bottom: 5px;
     }
-    .verified { color: ${theme === "galaxy" ? "#c084fc" : theme === "strawberry" ? "#ec4899" : theme === "unicorn-paper" || theme === "unicorn" ? "#8b5cf6" : "#1d9bf0"}; display: ${appData.profile.verified ? "inline-flex" : "none"}; width: 19px; height: 19px; }
+    .verified {
+      color: ${theme === "galaxy" ? "#c084fc" : theme === "strawberry" || theme === "strawberry-paper" ? "#ec4899" : theme === "unicorn-paper" || theme === "unicorn" ? "#8b5cf6" : theme === "matcha" ? "#22c55e" : "#1d9bf0"};
+      display: ${appData.profile.verified ? "inline-flex" : "none"};
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      transform: translateY(1px);
+    }
+    .verified svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
     .bio { font-size: 0.95rem; opacity: 0.85; margin-bottom: 16px; line-height: 1.4; max-width: 290px; }
     .socials { display: flex; gap: 18px; margin-bottom: 22px; justify-content: center; flex-wrap: wrap; }
     .socials a, .socials span { color: inherit; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }

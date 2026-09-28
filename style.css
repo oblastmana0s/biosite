@@ -765,21 +765,24 @@ body.mode-fullscreen .phone-screen {
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.2px;
+  line-height: 1.25;
 }
 
 .verified-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--verified-color);
-  width: 19px;
-  height: 19px;
+  color: var(--verified-color, #1d9bf0);
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transform: translateY(1px);
 }
 
 .verified-badge svg {
-  width: 19px;
-  height: 19px;
-  fill: currentColor;
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 .profile-bio {
