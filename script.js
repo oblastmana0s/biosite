@@ -13,6 +13,7 @@ const DEFAULT_BIO_DATA = {
   profile: {
     name: "Mimi & Cozy",
     bio: "Góc nhỏ chia sẻ điều xinh xắn, review có tâm ✨",
+    footerBio: "",
     verified: true,
     avatar: "assets/avatar_strawberry.png"
   },
@@ -346,6 +347,9 @@ const bioDB = new BioStorageEngine();
 function normalizeBioData(data) {
   if (!data) return;
   if (!data.profile) data.profile = {};
+  if (data.profile.footerBio === undefined) {
+    data.profile.footerBio = "";
+  }
   if (!data.profile.avatar || data.profile.avatar.includes("reese_avatar.png") || data.profile.avatar.includes("unsplash.com")) {
     data.profile.avatar = "assets/avatar_strawberry.png";
   }
@@ -616,6 +620,7 @@ function renderApp() {
   const nameEl = document.getElementById("profileName");
   const bioEl = document.getElementById("profileBio");
   const verifiedEl = document.getElementById("profileVerified");
+  const footerBioEl = document.getElementById("profileFooterBio");
 
   if (avatarEl) avatarEl.src = appData.profile.avatar || "assets/avatar_strawberry.png";
   if (nameEl) nameEl.textContent = appData.profile.name || "Tên của bạn";
@@ -623,6 +628,16 @@ function renderApp() {
   if (verifiedEl) {
     verifiedEl.style.display = appData.profile.verified ? "inline-flex" : "none";
     verifiedEl.innerHTML = SVG_ICONS.verified;
+  }
+  if (footerBioEl) {
+    const footerText = (appData.profile.footerBio || "").trim();
+    if (footerText) {
+      footerBioEl.textContent = appData.profile.footerBio;
+      footerBioEl.style.display = "block";
+    } else {
+      footerBioEl.textContent = "";
+      footerBioEl.style.display = "none";
+    }
   }
 
   // 5. Render Socials Bar (strictly ordered by appData.socials)
@@ -772,11 +787,13 @@ function populateDrawerInputs() {
   // Profile
   const inputName = document.getElementById("inputName");
   const inputBio = document.getElementById("inputBio");
+  const inputFooterBio = document.getElementById("inputFooterBio");
   const inputVerified = document.getElementById("inputVerified");
   const inputAvatarUrl = document.getElementById("inputAvatarUrl");
 
   if (inputName) inputName.value = appData.profile.name;
   if (inputBio) inputBio.value = appData.profile.bio;
+  if (inputFooterBio) inputFooterBio.value = appData.profile.footerBio || "";
   if (inputVerified) inputVerified.checked = appData.profile.verified;
   if (inputAvatarUrl) inputAvatarUrl.value = appData.profile.avatar.startsWith("data:") ? "" : appData.profile.avatar;
 
@@ -1737,7 +1754,8 @@ function exportStandaloneHtml() {
       height: 20px;
       display: block;
     }
-    .bio { font-size: 0.95rem; opacity: 0.85; margin-bottom: 16px; line-height: 1.4; max-width: 290px; }
+    .bio { font-size: 0.95rem; opacity: 0.85; margin-bottom: 16px; line-height: 1.45; max-width: 290px; white-space: pre-line; word-break: break-word; }
+    .footer-bio { font-size: 0.95rem; opacity: 0.85; margin-top: 24px; line-height: 1.45; max-width: 290px; text-align: center; white-space: pre-line; word-break: break-word; }
     .socials { display: flex; gap: 18px; margin-bottom: 22px; justify-content: center; flex-wrap: wrap; }
     .socials a, .socials span { color: inherit; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; text-decoration: none; }
     .socials a svg, .socials span svg { width: 22px; height: 22px; fill: currentColor; }
@@ -1856,6 +1874,8 @@ function exportStandaloneHtml() {
       `;
       }).join("")}
     </div>
+
+    ${appData.profile.footerBio && appData.profile.footerBio.trim() ? `<p class="footer-bio">${escapeHtml(appData.profile.footerBio)}</p>` : ""}
   </div>
 </body>
 </html>`;
@@ -1977,6 +1997,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (inputBio) {
     inputBio.addEventListener("input", (e) => {
       appData.profile.bio = e.target.value;
+      saveBioData();
+      renderApp();
+    });
+  }
+
+  const inputFooterBio = document.getElementById("inputFooterBio");
+  if (inputFooterBio) {
+    inputFooterBio.addEventListener("input", (e) => {
+      appData.profile.footerBio = e.target.value;
       saveBioData();
       renderApp();
     });

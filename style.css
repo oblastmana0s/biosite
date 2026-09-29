@@ -789,10 +789,24 @@ body.mode-fullscreen .phone-screen {
 .profile-bio {
   font-size: 0.95rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.45;
   max-width: 280px;
   margin-bottom: 15px;
   font-weight: 450;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.profile-footer-bio {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 280px;
+  margin: 24px auto 0 auto;
+  text-align: center;
+  font-weight: 450;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 /* Socials Icons Row */
@@ -2229,7 +2243,8 @@ input:checked + .slider:before {
     font-size: 1.2rem;
   }
 
-  .profile-bio {
+  .profile-bio,
+  .profile-footer-bio {
     font-size: 0.92rem;
     max-width: 290px;
   }
